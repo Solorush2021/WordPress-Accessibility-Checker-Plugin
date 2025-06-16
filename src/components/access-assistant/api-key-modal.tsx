@@ -38,23 +38,23 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] bg-white/30 dark:bg-slate-800/30 backdrop-blur-xl border border-white/40 dark:border-slate-700/40 rounded-xl shadow-2xl">
+      <DialogContent className="sm:max-w-[425px] bg-white/10 dark:bg-slate-800/30 backdrop-blur-xl border border-white/20 dark:border-slate-700/50 rounded-xl shadow-2xl">
         <DialogHeader>
-          <DialogTitle className="font-headline text-primary dark:text-primary-foreground/90">Configure API Key</DialogTitle>
-          <DialogDescription className="dark:text-slate-400">
+          <DialogTitle className="font-headline text-primary dark:text-primary">Configure API Key</DialogTitle>
+          <DialogDescription className="text-slate-600 dark:text-slate-400">
             Enter your Gemini API key to enable accessibility analysis. Your key is stored locally in your browser.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="apiKey" className="text-right dark:text-slate-300">
+            <Label htmlFor="apiKey" className="text-right text-slate-700 dark:text-slate-300">
               API Key
             </Label>
             <Input
               id="apiKey"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
-              className="col-span-3 bg-white/50 dark:bg-slate-700/50 border-slate-300 dark:border-slate-600 focus:ring-accent"
+              className="col-span-3 bg-white/50 dark:bg-slate-700/60 border-slate-300 dark:border-slate-600/70 focus:ring-accent focus:border-accent placeholder:text-slate-400 dark:placeholder:text-slate-500"
               type="password"
               placeholder="Enter your API key"
             />
@@ -64,14 +64,14 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }
           <Button 
             variant="outline" 
             onClick={() => onOpenChange(false)}
-            className="bg-white/40 dark:bg-slate-700/40 backdrop-blur-sm border-slate-400/70 dark:border-slate-600/70 text-slate-700 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-slate-600/60"
+            className="bg-white/40 dark:bg-slate-700/60 backdrop-blur-sm border-slate-400/70 dark:border-slate-600/70 text-slate-700 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-slate-600/70 shadow-md"
           >
             Cancel
           </Button>
           <Button 
             type="submit" 
             onClick={handleSave} 
-            className="bg-primary/80 hover:bg-primary text-primary-foreground backdrop-blur-sm border border-primary/50"
+            className="bg-primary/80 hover:bg-primary text-primary-foreground backdrop-blur-sm border border-primary/50 shadow-lg hover:shadow-primary/40"
           >
             Save Key
           </Button>

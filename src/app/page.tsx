@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Settings, Send } from 'lucide-react';
+import { Settings, Send, Moon, Sun } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { analyzeAccessibility, type AnalyzeAccessibilityOutput } from '@/ai/flows/analyze-accessibility';
 import { AccessibilityMetaBox } from '@/components/access-assistant/accessibility-meta-box';
@@ -16,6 +16,8 @@ export default function AccessAssistantPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState<boolean>(false);
   const { toast } = useToast();
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
 
   const [initialContent, setInitialContent] = useState('');
   useEffect(() => {
@@ -27,6 +29,18 @@ export default function AccessAssistantPage() {
       setContent(initialContent);
     }
   }, [initialContent]);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
 
   const handleAnalyzeContent = async () => {
@@ -62,18 +76,29 @@ export default function AccessAssistantPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-gray-100 to-stone-200 dark:from-slate-800 dark:via-gray-900 dark:to-stone-950 flex flex-col p-4 md:p-8 selection:bg-primary/20 selection:text-primary">
+    <div className={`min-h-screen flex flex-col p-4 md:p-8 selection:bg-primary/20 selection:text-primary transition-colors duration-300 ${isDarkMode ? 'bg-gradient-to-br from-slate-900 via-gray-900 to-black' : 'bg-gradient-to-br from-slate-100 via-gray-100 to-stone-200'}`}>
       <header className="mb-8 flex justify-between items-center">
-        <h1 className="text-3xl md:text-4xl font-headline text-primary dark:text-primary-foreground/90">Access Assistant</h1>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => setIsApiKeyModalOpen(true)}
-          className="bg-white/30 dark:bg-slate-700/30 backdrop-blur-sm border-primary/50 text-primary dark:text-primary-foreground/80 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20 dark:hover:text-primary-foreground shadow-md"
-          aria-label="Open API Key Settings"
-        >
-          <Settings className="h-5 w-5" />
-        </Button>
+        <h1 className="text-3xl md:text-4xl font-headline text-primary dark:text-primary">Access Assistant</h1>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={toggleDarkMode}
+            className="bg-white/30 dark:bg-slate-700/30 backdrop-blur-sm border-primary/50 text-primary dark:text-primary hover:bg-primary/10 dark:hover:bg-primary/20 shadow-md"
+            aria-label="Toggle Dark Mode"
+          >
+            {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setIsApiKeyModalOpen(true)}
+            className="bg-white/30 dark:bg-slate-700/30 backdrop-blur-sm border-primary/50 text-primary dark:text-primary hover:bg-primary/10 dark:hover:bg-primary/20 shadow-md"
+            aria-label="Open API Key Settings"
+          >
+            <Settings className="h-5 w-5" />
+          </Button>
+        </div>
       </header>
 
       <main className="flex-grow grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
@@ -86,7 +111,7 @@ export default function AccessAssistantPage() {
             placeholder="Start writing or paste your post content here..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="flex-grow min-h-[300px] md:min-h-[500px] p-4 rounded-lg shadow-inner bg-white/50 dark:bg-slate-800/40 backdrop-blur-sm focus:ring-accent focus:border-accent text-base border-slate-300 dark:border-slate-700"
+            className="flex-grow min-h-[300px] md:min-h-[500px] p-4 rounded-lg shadow-inner bg-white/50 dark:bg-slate-800/40 backdrop-blur-sm focus:ring-accent focus:border-accent text-base border-slate-300 dark:border-slate-700/60"
             aria-label="Post Content Editor"
           />
           <Button

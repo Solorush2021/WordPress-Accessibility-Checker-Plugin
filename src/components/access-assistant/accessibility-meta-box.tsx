@@ -12,7 +12,7 @@ import { IssueTypeIcon } from '@/components/icons/issue-type-icon';
 import { Separator } from '../ui/separator';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Sparkles, CheckCircle, AlertTriangle, Info, Loader2, Eye, EyeOff } from 'lucide-react';
+import { Sparkles, CheckCircle, AlertTriangle, Info, Loader2, Eye, EyeOff, ChevronDown, ChevronUp } from 'lucide-react';
 import { ResponsiveContainer, RadialBarChart, PolarAngleAxis, RadialBar } from 'recharts';
 
 interface AccessibilityMetaBoxProps {
@@ -29,9 +29,9 @@ const getScoreFillColor = (value: number): string => {
 };
 
 const getScoreIcon = (value: number) => {
-  if (value < 50) return <AlertTriangle className="h-5 w-5 text-red-500 dark:text-red-400" />;
-  if (value < 80) return <Info className="h-5 w-5 text-yellow-500 dark:text-yellow-400" />;
-  return <CheckCircle className="h-5 w-5 text-green-500 dark:text-green-400" />;
+  if (value < 50) return <AlertTriangle className="h-6 w-6 text-red-500 dark:text-red-400" />;
+  if (value < 80) return <Info className="h-6 w-6 text-yellow-500 dark:text-yellow-400" />;
+  return <CheckCircle className="h-6 w-6 text-green-500 dark:text-green-400" />;
 };
 
 async function imageUrlToDataUri(url: string): Promise<string> {
@@ -90,10 +90,10 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
           description: (
             <div>
               <p className="mb-2">Suggested: "{result.suggestedAltText}" for image: <span className="font-mono text-xs break-all">{imageSrc}</span></p>
-              <p className="text-xs text-muted-foreground mb-3">Preview the change in the 'After' tab below.</p>
+              <p className="text-xs text-muted-foreground mb-3">Preview the change in the 'After' tab. Click 'Apply' to update editor.</p>
               <Button 
                 size="sm" 
-                className="mt-2 bg-primary/80 hover:bg-primary/90 text-primary-foreground backdrop-blur-sm border border-primary/50"
+                className="mt-2 bg-primary/80 hover:bg-primary text-primary-foreground backdrop-blur-sm border border-primary/50 shadow-lg hover:shadow-primary/40"
                 onClick={() => {
                   if (imgElement) {
                     onApplySuggestion(proposedFixedContent);
@@ -131,25 +131,22 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
   };
 
   const renderPreviewContent = () => {
-    if (previewMode === 'before') {
-      return <div dangerouslySetInnerHTML={{ __html: content }} />;
-    } else {
-      return <div dangerouslySetInnerHTML={{ __html: afterContent || content }} />;
-    }
+    const currentDisplayContent = previewMode === 'before' ? content : (afterContent || content);
+    return <div className="prose dark:prose-invert max-w-none prose-sm" dangerouslySetInnerHTML={{ __html: currentDisplayContent }} />;
   };
 
 
   if (isLoading) {
     return (
-      <Card className="w-full bg-white/20 dark:bg-slate-800/20 backdrop-blur-lg border border-white/30 dark:border-slate-700/30 rounded-xl shadow-2xl flex flex-col flex-grow">
+      <Card className="w-full bg-white/10 dark:bg-slate-800/30 backdrop-blur-xl border border-white/20 dark:border-slate-700/50 rounded-xl shadow-2xl flex flex-col flex-grow">
         <CardHeader className="pb-4">
-          <CardTitle className="font-headline text-2xl text-primary dark:text-primary-foreground/90 flex items-center gap-2">
+          <CardTitle className="font-headline text-2xl text-primary dark:text-primary flex items-center gap-2">
             Accessibility Check
           </CardTitle>
           <CardDescription className="dark:text-slate-400">Analyzing your content, please wait...</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 flex flex-col items-center justify-center flex-grow min-h-[300px]">
-          <Loader2 className="h-16 w-16 text-primary dark:text-primary-foreground/80 animate-spin" />
+          <Loader2 className="h-16 w-16 text-primary dark:text-primary animate-spin" />
           <p className="text-lg text-muted-foreground dark:text-slate-400 animate-pulse">Scanning for issues...</p>
         </CardContent>
       </Card>
@@ -158,9 +155,9 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
 
   if (!analysisResult) {
     return (
-      <Card className="w-full bg-white/20 dark:bg-slate-800/20 backdrop-blur-lg border border-white/30 dark:border-slate-700/30 rounded-xl shadow-2xl flex flex-col flex-grow">
+      <Card className="w-full bg-white/10 dark:bg-slate-800/30 backdrop-blur-xl border border-white/20 dark:border-slate-700/50 rounded-xl shadow-2xl flex flex-col flex-grow">
         <CardHeader className="pb-4">
-          <CardTitle className="font-headline text-2xl text-primary dark:text-primary-foreground/90 flex items-center gap-2">
+          <CardTitle className="font-headline text-2xl text-primary dark:text-primary flex items-center gap-2">
             Accessibility Check
           </CardTitle>
         </CardHeader>
@@ -178,18 +175,20 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
   const scoreData = [{ name: 'score', value: score, fill: getScoreFillColor(score) }];
 
   return (
-    <Card className="w-full bg-white/20 dark:bg-slate-800/20 backdrop-blur-lg border border-white/30 dark:border-slate-700/30 rounded-xl shadow-2xl overflow-hidden flex flex-col flex-grow">
-      <CardHeader className="bg-white/10 dark:bg-slate-900/10 backdrop-blur-sm pb-4 border-b border-white/20 dark:border-slate-700/20">
-        <CardTitle className="font-headline text-2xl md:text-3xl text-primary dark:text-primary-foreground/90 flex items-center gap-2">
+    <Card className="w-full bg-white/10 dark:bg-slate-900/20 backdrop-blur-2xl border border-white/20 dark:border-slate-700/40 rounded-2xl shadow-2xl overflow-hidden flex flex-col flex-grow">
+      <CardHeader className="bg-white/5 dark:bg-black/10 backdrop-blur-sm pb-4 border-b border-white/10 dark:border-slate-700/30">
+        <CardTitle className="font-headline text-2xl md:text-3xl text-primary dark:text-primary flex items-center gap-2">
           Accessibility Insights
         </CardTitle>
-        <CardDescription className="dark:text-slate-400">A summary of the accessibility status of your content.</CardDescription>
+        <CardDescription className="text-slate-600 dark:text-slate-400">A summary of your content's accessibility status.</CardDescription>
       </CardHeader>
       
       <ScrollArea className="flex-grow">
-        <CardContent className="p-4 md:p-6 space-y-6">
-          <div className="text-center">
-            <h3 className="text-xl font-semibold mb-1 font-headline flex items-center justify-center gap-2 dark:text-slate-200">
+        <CardContent className="p-4 md:p-6 space-y-8">
+          
+          {/* Score Section */}
+          <div className="text-center p-4 bg-white/5 dark:bg-black/10 backdrop-blur-md rounded-xl border border-white/10 dark:border-slate-800/30 shadow-lg">
+            <h3 className="text-xl font-semibold mb-2 font-headline flex items-center justify-center gap-2 text-slate-700 dark:text-slate-200">
               {getScoreIcon(score)} Overall Score
             </h3>
             <div className="w-40 h-40 md:w-48 md:h-48 mx-auto my-2">
@@ -199,21 +198,21 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
                   cy="50%"
                   innerRadius="70%"
                   outerRadius="90%"
-                  barSize={14}
+                  barSize={16}
                   data={scoreData}
                   startAngle={90}
                   endAngle={-270}
                 >
                   <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
                   <RadialBar
-                    background={{ fill: 'hsla(var(--muted-foreground)/0.1)' }}
+                    background={{ fill: 'hsla(var(--muted-foreground)/0.05)' }}
                     dataKey="value"
-                    cornerRadius={7}
+                    cornerRadius={8}
                   />
-                  <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" className="text-3xl md:text-4xl font-bold fill-primary dark:fill-primary-foreground/90">
+                  <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" className="text-3xl md:text-4xl font-bold fill-primary dark:fill-primary">
                     {score}
                   </text>
-                   <text x="50%" y="68%" textAnchor="middle" dominantBaseline="middle" className="text-sm fill-muted-foreground dark:fill-slate-400">
+                   <text x="50%" y="68%" textAnchor="middle" dominantBaseline="middle" className="text-sm fill-muted-foreground dark:text-slate-400">
                     / 100
                   </text>
                 </RadialBarChart>
@@ -224,32 +223,33 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
             </p>
           </div>
 
-          <Separator className="my-6 border-white/20 dark:border-slate-700/20" />
+          <Separator className="my-6 border-white/10 dark:border-slate-700/20" />
 
+          {/* Issues Section */}
           <div>
-            <h3 className="text-xl font-semibold mb-4 font-headline dark:text-slate-200">Identified Issues ({issues.length})</h3>
+            <h3 className="text-xl font-semibold mb-4 font-headline text-slate-700 dark:text-slate-200">Identified Issues ({issues.length})</h3>
             {issues.length > 0 ? (
-              <Accordion type="single" collapsible className="w-full space-y-2">
+              <Accordion type="single" collapsible className="w-full space-y-3">
                 {issues.map((issue, index) => {
                   const issueKey = `${issue.type}-${index}`;
                   const isSuggestingCurrentFix = suggestingFixFor === issueKey;
                   return (
-                    <AccordionItem value={`item-${index}`} key={index} className="border border-white/30 dark:border-slate-700/40 rounded-lg shadow-sm bg-white/10 dark:bg-slate-800/20 backdrop-blur-sm hover:bg-white/20 dark:hover:bg-slate-700/30 transition-colors">
-                      <AccordionTrigger className="hover:bg-white/5 dark:hover:bg-slate-700/10 px-3 py-3 rounded-t-lg transition-colors data-[state=open]:bg-white/15 dark:data-[state=open]:bg-slate-700/20">
+                    <AccordionItem value={`item-${index}`} key={index} className="bg-white/10 dark:bg-slate-800/40 backdrop-blur-md border border-white/20 dark:border-slate-700/60 rounded-lg shadow-md overflow-hidden">
+                      <AccordionTrigger className="hover:bg-white/5 dark:hover:bg-slate-700/30 px-4 py-3 rounded-t-lg transition-colors data-[state=open]:bg-white/15 dark:data-[state=open]:bg-slate-700/50">
                         <div className="flex items-center gap-3 text-left w-full">
-                          <IssueTypeIcon type={issue.type} className="w-6 h-6 text-red-600 dark:text-red-500 flex-shrink-0" />
+                          <IssueTypeIcon type={issue.type} className="w-5 h-5 text-red-600 dark:text-red-500 flex-shrink-0" />
                           <span className="font-medium text-base text-foreground/90 dark:text-slate-200 flex-grow">{issue.type}</span>
-                          {issue.location && <Badge variant="outline" className="ml-auto text-xs hidden sm:inline-block py-1 px-2 border-primary/50 text-primary dark:border-primary/70 dark:text-primary-foreground/80 bg-primary/10 dark:bg-primary/20">{issue.location}</Badge>}
+                          {issue.location && <Badge variant="outline" className="ml-auto text-xs hidden sm:inline-block py-1 px-2 border-primary/50 text-primary dark:border-primary/70 dark:text-primary bg-primary/10 dark:bg-primary/30">{issue.location}</Badge>}
                         </div>
                       </AccordionTrigger>
-                      <AccordionContent className="px-3 py-4 bg-white/5 dark:bg-slate-800/10 rounded-b-lg border-t border-white/20 dark:border-slate-700/30">
-                        <p className="text-sm text-foreground/80 dark:text-slate-300 mb-2">{issue.message}</p>
-                        {issue.elementContext && issue.type.toLowerCase().includes('image') && <p className="text-xs text-muted-foreground dark:text-slate-400 mt-1">Image: <span className="font-mono text-xs break-all">{issue.elementContext}</span></p>}
+                      <AccordionContent className="px-4 py-4 bg-white/5 dark:bg-slate-800/20 rounded-b-lg border-t border-white/10 dark:border-slate-700/40">
+                        <p className="text-sm text-foreground/80 dark:text-slate-300 mb-3">{issue.message}</p>
+                        {issue.elementContext && issue.type.toLowerCase().includes('image') && <p className="text-xs text-muted-foreground dark:text-slate-400 mt-1 mb-3">Image: <span className="font-mono text-xs break-all p-1 bg-slate-200 dark:bg-slate-700 rounded">{issue.elementContext}</span></p>}
                         {issue.type.toLowerCase().includes('alt text') && issue.elementContext && (
                           <Button
                             variant="outline"
                             size="sm"
-                            className="mt-4 bg-accent/30 dark:bg-accent/20 backdrop-blur-sm border-accent/50 dark:border-accent/40 text-accent-foreground dark:text-accent-foreground/90 hover:bg-accent/40 dark:hover:bg-accent/30 hover:text-accent-foreground hover:shadow-md transition-all duration-150 ease-in-out transform hover:scale-105"
+                            className="mt-2 bg-accent/70 dark:bg-accent/60 backdrop-blur-sm border-accent/50 dark:border-accent/40 text-accent-foreground dark:text-accent-foreground hover:bg-accent/80 dark:hover:bg-accent/70 hover:shadow-accent/30 shadow-lg transition-all duration-150 ease-in-out transform hover:scale-105"
                             onClick={() => handleSuggestFix(issue, index)}
                             disabled={isSuggestingCurrentFix}
                           >
@@ -267,22 +267,23 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
                 })}
               </Accordion>
             ) : (
-              <div className="text-center py-6 bg-white/10 dark:bg-slate-800/20 backdrop-blur-sm rounded-md border border-white/20 dark:border-slate-700/30">
-                <CheckCircle className="h-10 w-10 text-green-500 dark:text-green-400 mx-auto mb-3" />
-                <p className="text-muted-foreground dark:text-slate-400">No specific issues found. Fantastic job!</p>
+              <div className="text-center py-8 bg-white/10 dark:bg-slate-800/30 backdrop-blur-md rounded-lg border border-white/20 dark:border-slate-700/50 shadow-md">
+                <CheckCircle className="h-12 w-12 text-green-500 dark:text-green-400 mx-auto mb-3" />
+                <p className="text-muted-foreground dark:text-slate-400 text-lg">No specific issues found. Fantastic job!</p>
               </div>
             )}
           </div>
 
-          {suggestions.length > 0 && <Separator className="my-6 border-white/20 dark:border-slate-700/20" />}
+          {suggestions.length > 0 && <Separator className="my-8 border-white/10 dark:border-slate-700/20" />}
           
+          {/* Suggestions Section */}
           {suggestions.length > 0 && (
             <div>
-              <h3 className="text-xl font-semibold mb-4 font-headline dark:text-slate-200">Suggestions for Improvement</h3>
+              <h3 className="text-xl font-semibold mb-4 font-headline text-slate-700 dark:text-slate-200">Suggestions for Improvement</h3>
               <ul className="space-y-3 list-none pl-0">
                 {suggestions.map((suggestion, index) => (
-                  <li key={index} className="text-sm text-foreground/90 dark:text-slate-300 flex items-start gap-2 p-3 bg-white/10 dark:bg-slate-800/20 backdrop-blur-sm rounded-md border border-white/20 dark:border-slate-700/30">
-                    <Info className="h-4 w-4 text-primary dark:text-primary-foreground/80 mt-0.5 flex-shrink-0" />
+                  <li key={index} className="text-sm text-foreground/90 dark:text-slate-300 flex items-start gap-3 p-3 bg-white/10 dark:bg-slate-800/40 backdrop-blur-md rounded-lg border border-white/20 dark:border-slate-700/60 shadow-sm">
+                    <Info className="h-5 w-5 text-primary dark:text-primary mt-0.5 flex-shrink-0" />
                     <span>{suggestion}</span>
                   </li>
                 ))}
@@ -290,29 +291,30 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
             </div>
           )}
           
-          <Separator className="my-6 border-white/20 dark:border-slate-700/20" />
+          <Separator className="my-8 border-white/10 dark:border-slate-700/20" />
 
+          {/* Preview Section */}
           <div>
             <div className="flex justify-between items-center mb-3">
-              <h3 className="text-xl font-semibold font-headline dark:text-slate-200">Content Preview</h3>
+              <h3 className="text-xl font-semibold font-headline text-slate-700 dark:text-slate-200">Content Preview</h3>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setShowPreviewPanel(!showPreviewPanel)}
-                className="bg-white/20 dark:bg-slate-700/20 backdrop-blur-sm border-slate-400/50 dark:border-slate-600/50 text-slate-700 dark:text-slate-300 hover:bg-white/30 dark:hover:bg-slate-600/30"
+                className="bg-white/30 dark:bg-slate-700/50 backdrop-blur-md border-slate-400/50 dark:border-slate-600/50 text-slate-700 dark:text-slate-300 hover:bg-white/40 dark:hover:bg-slate-600/60 shadow-md hover:shadow-lg transition-all"
               >
-                {showPreviewPanel ? <EyeOff className="mr-2 h-4 w-4" /> : <Eye className="mr-2 h-4 w-4" />}
+                {showPreviewPanel ? <ChevronUp className="mr-2 h-4 w-4" /> : <ChevronDown className="mr-2 h-4 w-4" />}
                 {showPreviewPanel ? 'Hide Preview' : 'Show Preview'}
               </Button>
             </div>
             {showPreviewPanel && (
-              <div className="p-4 bg-white/10 dark:bg-slate-800/20 backdrop-blur-sm rounded-md border border-white/20 dark:border-slate-700/30 space-y-3">
-                <div className="flex gap-2 mb-2">
+              <div className="p-4 bg-white/10 dark:bg-slate-800/30 backdrop-blur-lg rounded-xl border border-white/20 dark:border-slate-700/50 space-y-4 shadow-lg">
+                <div className="flex gap-2 mb-3">
                   <Button
                     size="sm"
                     variant={previewMode === 'before' ? 'default' : 'outline'}
                     onClick={() => setPreviewMode('before')}
-                    className={`backdrop-blur-sm ${previewMode === 'before' ? 'bg-primary/70 text-primary-foreground border-primary/50' : 'bg-white/20 dark:bg-slate-700/30 border-slate-400/50 dark:border-slate-600/50 text-slate-700 dark:text-slate-300'}`}
+                    className={`backdrop-blur-sm shadow-md hover:shadow-lg transition-all ${previewMode === 'before' ? 'bg-primary/80 hover:bg-primary text-primary-foreground border-primary/50' : 'bg-white/30 dark:bg-slate-700/50 border-slate-400/50 dark:border-slate-600/50 text-slate-700 dark:text-slate-300 hover:bg-white/40 dark:hover:bg-slate-600/60'}`}
                   >
                     Before
                   </Button>
@@ -320,12 +322,12 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
                     size="sm"
                     variant={previewMode === 'after' ? 'default' : 'outline'}
                     onClick={() => setPreviewMode('after')}
-                    className={`backdrop-blur-sm ${previewMode === 'after' ? 'bg-primary/70 text-primary-foreground border-primary/50' : 'bg-white/20 dark:bg-slate-700/30 border-slate-400/50 dark:border-slate-600/50 text-slate-700 dark:text-slate-300'}`}
+                    className={`backdrop-blur-sm shadow-md hover:shadow-lg transition-all ${previewMode === 'after' ? 'bg-primary/80 hover:bg-primary text-primary-foreground border-primary/50' : 'bg-white/30 dark:bg-slate-700/50 border-slate-400/50 dark:border-slate-600/50 text-slate-700 dark:text-slate-300 hover:bg-white/40 dark:hover:bg-slate-600/60'}`}
                   >
                     After
                   </Button>
                 </div>
-                <div className="p-3 rounded bg-white dark:bg-slate-900 min-h-[100px] text-sm prose dark:prose-invert max-w-none prose-img:my-1 prose-p:my-1">
+                <div className="p-4 rounded-lg bg-white dark:bg-slate-900 min-h-[150px] shadow-inner">
                   {renderPreviewContent()}
                 </div>
               </div>

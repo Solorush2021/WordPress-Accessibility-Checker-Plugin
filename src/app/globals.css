@@ -62,44 +62,44 @@ body {
   }
 
   .dark {
-    --background: 220 15% 10%; /* Dark slate blue */
-    --foreground: 220 10% 85%;
+    --background: 220 15% 8%; /* Even Darker slate blue for deep dark mode */
+    --foreground: 220 10% 90%; /* Brighter foreground for contrast */
 
-    --card: 220 15% 15%; 
-    --card-foreground: 220 10% 85%;
+    --card: 220 15% 12%; /* Slightly lighter than background for depth, for opaque cards */
+    --card-foreground: 220 10% 90%;
 
     --popover: 220 15% 10%;
-    --popover-foreground: 220 10% 85%;
+    --popover-foreground: 220 10% 90%;
 
-    --primary: 261 60% 65%; /* Lighter purple for dark mode */
-    --primary-foreground: 260 10% 10%;
+    --primary: 261 70% 70%; /* Lighter and more vibrant purple for dark mode */
+    --primary-foreground: 260 10% 15%; /* Darker text on vibrant primary */
 
-    --secondary: 220 15% 25%;
-    --secondary-foreground: 220 10% 85%;
+    --secondary: 220 15% 20%; /* Darker secondary */
+    --secondary-foreground: 220 10% 80%;
 
-    --muted: 220 15% 30%; 
-    --muted-foreground: 220 10% 65%; 
+    --muted: 220 15% 25%; 
+    --muted-foreground: 220 10% 60%; 
 
-    --accent: 16 100% 75%; /* Lighter orange for dark mode */
-    --accent-foreground: 20 10% 95%; 
+    --accent: 16 100% 78%; /* Brighter orange for dark mode */
+    --accent-foreground: 20 10% 10%; 
 
-    --destructive: 0 70% 60%;
+    --destructive: 0 70% 65%; /* Slightly brighter red */
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 15% 30%; 
-    --input: 220 15% 20%;
-    --ring: 261 60% 70%; 
+    --border: 220 15% 25%; /* For opaque borders */
+    --input: 220 15% 18%; /* Darker input fields */
+    --ring: 261 70% 75%; 
     
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --chart-1: 220 70% 55%;
+    --chart-2: 160 60% 50%;
+    --chart-3: 30 80% 60%;
+    --chart-4: 280 65% 65%;
+    --chart-5: 340 75% 60%;
 
     /* Score colors */
-    --score-low: 0 70% 60%; /* Reddish */
-    --score-medium: 39 90% 60%; /* Yellowish/Orangish */
-    --score-high: 120 60% 60%; /* Greenish (slightly lighter for dark) */
+    --score-low: 0 70% 65%; 
+    --score-medium: 39 90% 65%; 
+    --score-high: 120 60% 65%; 
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
