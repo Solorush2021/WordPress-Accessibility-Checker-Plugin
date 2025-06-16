@@ -83,14 +83,32 @@ export default function AccessAssistantPage() {
     }
   };
 
+  const ribbonFeatures = [
+    "AI-Powered Accessibility Analysis.",
+    "Instant Alt-Text Suggestions.",
+    "Interactive Content Preview.",
+    "Fix Issues with a Click.",
+    "Sleek Glassmorphism UI.",
+    "Dark & Light Mode Support."
+  ];
+  const ribbonText = ribbonFeatures.join(" • ");
+
+
   return (
     <div className={`min-h-screen flex flex-col p-4 md:p-8 selection:bg-primary/30 selection:text-primary-foreground bg-background text-foreground transition-colors duration-300`}>
-      <header className="mb-8 flex justify-between items-center">
-        <h1 className="text-3xl md:text-4xl font-headline neon-orange-red-glow flex items-center gap-3">
-          <Accessibility className="h-8 w-8 md:h-10 md:w-10 logo-pulse" style={{ animation: 'logo-pulse 2.5s infinite ease-in-out' }} />
-          Access Assistant
-        </h1>
-        <div className="flex items-center gap-3">
+      <header className="mb-6 flex justify-between items-center">
+        <div className="flex-grow min-w-0">
+          <h1 className="text-3xl md:text-4xl font-headline neon-orange-red-glow flex items-center gap-3">
+            <Accessibility className="h-8 w-8 md:h-10 md:w-10 logo-pulse" style={{ animation: 'logo-pulse 2.5s infinite ease-in-out' }} />
+            Access Assistant
+          </h1>
+          <div className="feature-ribbon mt-2">
+            <div className="ribbon-text-scroll">
+              <span>{ribbonText} &nbsp; &nbsp; {ribbonText}</span>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center gap-3 flex-shrink-0 ml-4">
           <Button
             variant="outline"
             size="icon"

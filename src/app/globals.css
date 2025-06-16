@@ -3,11 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @keyframes flowing-liquid {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-} */
 
 @keyframes logo-pulse {
   0%, 100% {
@@ -21,21 +16,54 @@
 }
 
 .liquid-glass-effect {
-  background: hsl(var(--card) / 0.3); /* Static semi-transparent card background */
-  border: 1px solid hsla(var(--primary-foreground), 0.15); /* Subtle light border */
-  box-shadow: 0 8px 32px 0 hsla(0, 0%, 0%, 0.2); /* Neutral shadow for depth */
+  background: hsl(var(--card) / 0.3); 
+  border: 1px solid hsla(var(--primary-foreground), 0.15); 
+  box-shadow: 0 8px 32px 0 hsla(0, 0%, 0%, 0.2); 
   backdrop-filter: blur(10px);
-  border-radius: var(--radius); /* Use the theme radius */
+  border-radius: var(--radius); 
 }
 
 .neon-orange-red-glow {
   color: hsl(var(--primary)); /* Orange text */
   text-shadow:
-    0 0 1px hsl(var(--primary-foreground)/0.7), /* Inner white-ish sharp glow */
-    0 0 3px hsl(var(--primary)/0.8),  /* Orange halo */
-    0 0 6px hsl(var(--primary)/0.6),
-    0 0 10px hsla(340, 80%, 70%, 0.7), /* Reddish-pink outer glow */
-    0 0 15px hsla(340, 80%, 70%, 0.5); /* Fainter reddish-pink outer glow */
+    0 0 1px hsl(var(--primary-foreground)/0.85), /* Inner white-ish sharp glow - slightly more opaque */
+    0 0 3px hsl(var(--primary)/0.9),  /* Stronger Orange halo - more opaque */
+    0 0 7px hsl(var(--primary)/0.6), /* Slightly softer Orange halo */
+    0 0 10px hsla(340, 80%, 70%, 0.6), /* Reddish-pink outer glow - slightly less spread, bit less intense */
+    0 0 15px hsla(340, 80%, 70%, 0.4); /* Fainter reddish-pink outer glow - less intense */
+}
+
+@keyframes scroll-right-to-left {
+  0% {
+    transform: translateX(0%); /* Start with the first set of text visible */
+  }
+  100% {
+    transform: translateX(-50%); /* Scroll until the second set of text takes place of the first */
+  }
+}
+
+.feature-ribbon {
+  width: 100%;
+  overflow: hidden;
+  background: hsl(var(--muted) / 0.2); /* Dark translucent background */
+  backdrop-filter: blur(3px);
+  padding: 0.3rem 0;
+  border-radius: calc(var(--radius) / 2);
+  margin-top: 0.25rem; /* Spacing from the main title */
+  border: 1px solid hsl(var(--border) / 0.3);
+}
+
+.ribbon-text-scroll {
+  display: inline-block; /* Changed from flex to inline-block for simpler text animation */
+  white-space: nowrap;
+  animation: scroll-right-to-left 30s linear infinite; /* Adjust duration as needed */
+  font-size: 0.8rem; /* Smaller text for features */
+  color: hsl(var(--accent-foreground)); /* Bright text, e.g., white */
+}
+
+.ribbon-text-scroll span {
+   color: hsl(var(--accent)); /* Using accent color (green) for the text */
+   font-weight: 500;
 }
 
 
