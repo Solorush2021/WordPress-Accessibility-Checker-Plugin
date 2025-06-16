@@ -62,33 +62,33 @@ body {
   }
 
   .dark {
-    --background: 220 15% 8%; /* Even Darker slate blue for deep dark mode */
-    --foreground: 220 10% 90%; /* Brighter foreground for contrast */
+    --background: 222 47% 11%; /* Dark Slate Blue - base for glassmorphism */
+    --foreground: 210 40% 98%; /* Brighter foreground for contrast */
 
-    --card: 220 15% 12%; /* Slightly lighter than background for depth, for opaque cards */
-    --card-foreground: 220 10% 90%;
+    --card: 222 47% 15%; /* Slightly lighter than background for depth, for opaque cards */
+    --card-foreground: 210 40% 98%;
 
-    --popover: 220 15% 10%;
-    --popover-foreground: 220 10% 90%;
+    --popover: 222 47% 13%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 261 70% 70%; /* Lighter and more vibrant purple for dark mode */
+    --primary: 260 85% 75%; /* Lighter and more vibrant purple for dark mode */
     --primary-foreground: 260 10% 15%; /* Darker text on vibrant primary */
 
-    --secondary: 220 15% 20%; /* Darker secondary */
-    --secondary-foreground: 220 10% 80%;
+    --secondary: 222 47% 20%; /* Darker secondary */
+    --secondary-foreground: 210 40% 80%;
 
-    --muted: 220 15% 25%; 
-    --muted-foreground: 220 10% 60%; 
+    --muted: 222 47% 25%; 
+    --muted-foreground: 210 40% 60%; 
 
-    --accent: 16 100% 78%; /* Brighter orange for dark mode */
+    --accent: 30 100% 75%; /* Brighter orange for dark mode */
     --accent-foreground: 20 10% 10%; 
 
     --destructive: 0 70% 65%; /* Slightly brighter red */
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 15% 25%; /* For opaque borders */
-    --input: 220 15% 18%; /* Darker input fields */
-    --ring: 261 70% 75%; 
+    --border: 222 47% 25%; /* For opaque borders */
+    --input: 222 47% 18%; /* Darker input fields */
+    --ring: 260 85% 80%; 
     
     --chart-1: 220 70% 55%;
     --chart-2: 160 60% 50%;
@@ -97,9 +97,9 @@ body {
     --chart-5: 340 75% 60%;
 
     /* Score colors */
-    --score-low: 0 70% 65%; 
-    --score-medium: 39 90% 65%; 
-    --score-high: 120 60% 65%; 
+    --score-low: 0 80% 70%; 
+    --score-medium: 39 100% 70%; 
+    --score-high: 120 70% 65%; 
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -132,3 +132,4 @@ body {
     img { @apply border border-slate-700; }
   }
 }
+

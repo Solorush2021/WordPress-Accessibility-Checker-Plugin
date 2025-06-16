@@ -12,7 +12,7 @@ import { IssueTypeIcon } from '@/components/icons/issue-type-icon';
 import { Separator } from '../ui/separator';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Sparkles, CheckCircle, AlertTriangle, Info, Loader2, Eye, EyeOff, ChevronDown, ChevronUp } from 'lucide-react';
+import { Sparkles, CheckCircle, AlertTriangle, Info, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
 import { ResponsiveContainer, RadialBarChart, PolarAngleAxis, RadialBar } from 'recharts';
 
 interface AccessibilityMetaBoxProps {

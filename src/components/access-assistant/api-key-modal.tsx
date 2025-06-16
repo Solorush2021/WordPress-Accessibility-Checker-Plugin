@@ -24,7 +24,7 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }
 
   const handleSave = () => {
     console.log('Simulated API Key Save:', apiKey);
-    localStorage.setItem('gemini_api_key', apiKey); // Basic save, not secure for real apps
+    localStorage.setItem('gemini_api_key', apiKey); 
     onOpenChange(false);
   };
 

@@ -16,7 +16,7 @@ export default function AccessAssistantPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState<boolean>(false);
   const { toast } = useToast();
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(true); // Default to dark mode
 
 
   const [initialContent, setInitialContent] = useState('');
