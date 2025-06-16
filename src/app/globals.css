@@ -43,6 +43,12 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
 
+    /* Score colors */
+    --score-low: 0 70% 55%; /* Reddish */
+    --score-medium: 39 85% 50%; /* Yellowish/Orangish */
+    --score-high: 120 60% 45%; /* Greenish */
+
+
     /* Sidebar variables remain, but might be unused if sidebar is not part of the page */
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -89,6 +95,11 @@ body {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+
+    /* Score colors */
+    --score-low: 0 70% 55%; /* Reddish */
+    --score-medium: 39 85% 50%; /* Yellowish/Orangish */
+    --score-high: 120 60% 55%; /* Greenish (slightly lighter for dark) */
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;

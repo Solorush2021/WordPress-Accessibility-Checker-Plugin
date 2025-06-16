@@ -3,17 +3,25 @@
 import React from 'react';
 import type { AnalyzeAccessibilityOutput } from '@/ai/flows/analyze-accessibility';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { IssueTypeIcon } from '@/components/icons/issue-type-icon';
 import { Separator } from '../ui/separator';
+import { Button } from '@/components/ui/button';
+import { Sparkles } from 'lucide-react';
+import { ResponsiveContainer, RadialBarChart, PolarAngleAxis, RadialBar } from 'recharts';
 
 interface AccessibilityMetaBoxProps {
   analysisResult: AnalyzeAccessibilityOutput | null;
   isLoading: boolean;
 }
+
+const getScoreFillColor = (value: number): string => {
+  if (value < 50) return 'hsl(var(--score-low))';
+  if (value < 80) return 'hsl(var(--score-medium))';
+  return 'hsl(var(--score-high))';
+};
 
 export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ analysisResult, isLoading }) => {
   if (isLoading) {
@@ -46,11 +54,13 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
   }
 
   const { score, issues, suggestions } = analysisResult;
+  const scoreData = [{ name: 'score', value: score, fill: getScoreFillColor(score) }];
 
-  const getScoreColor = (value: number) => {
-    if (value < 50) return 'bg-red-500';
-    if (value < 80) return 'bg-yellow-500';
-    return 'bg-green-500';
+  const handleSuggestFix = (issue: AnalyzeAccessibilityOutput['issues'][number]) => {
+    // Placeholder for now. This will be connected to an AI flow.
+    console.log('Suggest fix for issue:', issue);
+    // Potentially call suggestAltText({ imageDataUri: '...', existingAltText: '...' }) if it's an image issue
+    // and we have a way to get the image data or relevant context.
   };
 
   return (
@@ -65,9 +75,35 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
       <ScrollArea className="h-[calc(100vh-200px)] md:h-auto md:max-h-[70vh]">
         <CardContent className="p-6 space-y-6">
           <div>
-            <h3 className="text-lg font-semibold mb-2 font-headline">Overall Score: {score}/100</h3>
-            <Progress value={score} className="w-full h-3 [&>div]:transition-all [&>div]:duration-500" indicatorClassName={getScoreColor(score)} />
-            <p className="text-sm text-muted-foreground mt-1">
+            <h3 className="text-lg font-semibold mb-1 font-headline text-center">Overall Score</h3>
+            <div className="w-36 h-36 mx-auto my-2">
+              <ResponsiveContainer width="100%" height="100%">
+                <RadialBarChart
+                  cx="50%"
+                  cy="50%"
+                  innerRadius="70%"
+                  outerRadius="90%"
+                  barSize={12}
+                  data={scoreData}
+                  startAngle={90}
+                  endAngle={-270}
+                >
+                  <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
+                  <RadialBar
+                    background={{ fill: 'hsl(var(--muted))' }}
+                    dataKey="value"
+                    cornerRadius={6}
+                  />
+                  <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" className="text-2xl font-bold fill-primary">
+                    {score}
+                  </text>
+                   <text x="50%" y="68%" textAnchor="middle" dominantBaseline="middle" className="text-xs fill-muted-foreground">
+                    / 100
+                  </text>
+                </RadialBarChart>
+              </ResponsiveContainer>
+            </div>
+            <p className="text-sm text-muted-foreground mt-1 text-center">
               {score >= 80 ? "Great job!" : score >= 50 ? "Some improvements needed." : "Needs significant improvement."}
             </p>
           </div>
@@ -90,6 +126,16 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
                     <AccordionContent className="px-2 py-3 bg-muted/10 rounded-b-md">
                       <p className="text-sm text-foreground/80">{issue.message}</p>
                       {issue.location && <p className="text-xs text-muted-foreground mt-1">Location: {issue.location}</p>}
+                      {issue.type.toLowerCase().includes('alt text') && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="mt-3 border-accent text-accent hover:bg-accent/10 hover:text-accent-foreground"
+                          onClick={() => handleSuggestFix(issue)}
+                        >
+                          <Sparkles className="mr-2 h-4 w-4" /> Suggest Fix
+                        </Button>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                 ))}
