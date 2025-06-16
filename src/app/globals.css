@@ -62,40 +62,49 @@
   border-top: 1px solid hsl(var(--primary) / 0.3); /* Orange top border */
   border-bottom: 1px solid hsl(var(--primary) / 0.3); /* Orange bottom border */
   border-radius: 0; /* Sharp edges */
-  /* margin-top: 0.75rem; Removed to control spacing from page.tsx if multiple ribbons */
   box-shadow: 0 2px 8px hsla(var(--primary)/0.15);
 }
 
 .ribbon-text-scroll {
   display: inline-block;
   white-space: nowrap;
-  animation: scroll-right-to-left 20s linear infinite; /* Faster scroll */
-  font-size: 0.9rem; /* Monospace often looks good slightly larger or bolder */
+  animation: scroll-right-to-left 30s linear infinite; /* Slower scroll */
+  font-size: 0.9rem; 
   text-transform: uppercase;
 }
 
 .ribbon-text-scroll-reverse {
   display: inline-block;
   white-space: nowrap;
-  animation: scroll-left-to-right 20s linear infinite; /* Same speed, opposite direction */
+  animation: scroll-left-to-right 30s linear infinite; /* Slower scroll, opposite direction */
   font-size: 0.9rem;
   text-transform: uppercase;
 }
 
 .ribbon-text-glow {
-  color: hsl(var(--primary)); /* Base orange/amber color for ribbon text */
+  color: hsl(var(--primary-foreground)); /* White text for Ribbon 1 */
   text-shadow:
-    0 0 2px hsl(var(--primary) / 0.7), /* Main glow */
-    0 0 5px hsl(var(--primary) / 0.5), /* Softer halo */
-    0 0 8px hsl(var(--primary) / 0.3); /* Faintest outer glow */
+    /* Striking Red Outline */
+    -1px -1px 0 hsl(0, 85%, 50%),  
+     1px -1px 0 hsl(0, 85%, 50%),
+    -1px  1px 0 hsl(0, 85%, 50%),
+     1px  1px 0 hsl(0, 85%, 50%),
+    /* Softer Red Glow */
+    0 0 4px hsl(0, 85%, 50% / 0.8),
+    0 0 7px hsl(0, 85%, 50% / 0.6);
 }
 
-.ribbon-text-glow-yellow {
-  color: hsl(50, 95%, 55%); /* Bright Yellow for text */
+.ribbon-text-glow-yellow { /* Class name kept for consistency, but color is now orange with reddish-pink glow */
+  color: hsl(var(--primary)); /* Orange text for Ribbon 2 */
   text-shadow:
-    0 0 2px hsl(50, 95%, 55% / 0.7), /* Main yellow glow */
-    0 0 5px hsl(50, 95%, 55% / 0.5), /* Softer yellow halo */
-    0 0 8px hsl(50, 95%, 55% / 0.3); /* Faintest outer yellow glow */
+    /* Reddish-Pink Outline */
+    -1px -1px 0 hsla(340, 80%, 60%, 1),  
+     1px -1px 0 hsla(340, 80%, 60%, 1),
+    -1px  1px 0 hsla(340, 80%, 60%, 1),
+     1px  1px 0 hsla(340, 80%, 60%, 1),
+    /* Softer Reddish-Pink Glow */
+    0 0 4px hsla(340, 80%, 60%, 0.7),
+    0 0 7px hsla(340, 80%, 60%, 0.5);
 }
 
 
