@@ -138,7 +138,7 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
 
   if (isLoading) {
     return (
-      <Card className="w-full liquid-glass-effect shadow-2xl flex flex-col flex-grow">
+      <Card className="w-full liquid-glass-effect flex flex-col flex-grow">
         <CardHeader className="pb-4">
           <CardTitle className="font-headline text-2xl text-[hsl(var(--primary))] flex items-center gap-2">
             Accessibility Check
@@ -155,7 +155,7 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
 
   if (!analysisResult) {
     return (
-      <Card className="w-full liquid-glass-effect shadow-2xl flex flex-col flex-grow">
+      <Card className="w-full liquid-glass-effect flex flex-col flex-grow">
         <CardHeader className="pb-4">
           <CardTitle className="font-headline text-2xl text-[hsl(var(--primary))] flex items-center gap-2">
             Accessibility Check
@@ -175,7 +175,7 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
   const scoreData = [{ name: 'score', value: score, fill: getScoreFillColor(score) }];
 
   return (
-    <Card className="w-full liquid-glass-effect shadow-2xl overflow-hidden flex flex-col flex-grow">
+    <Card className="w-full liquid-glass-effect overflow-hidden flex flex-col flex-grow">
       <CardHeader className="bg-black/20 backdrop-blur-sm pb-4 border-b border-[hsla(var(--primary-foreground),0.08)]">
         <CardTitle className="font-headline text-2xl md:text-3xl text-[hsl(var(--primary))] flex items-center gap-2">
           Accessibility Insights
@@ -232,7 +232,7 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
                   const issueKey = `${issue.type}-${index}`;
                   const isSuggestingCurrentFix = suggestingFixFor === issueKey;
                   return (
-                    <AccordionItem value={`item-${index}`} key={index} className="liquid-glass-effect bg-black/10 backdrop-blur-md border-transparent rounded-lg shadow-md overflow-hidden">
+                    <AccordionItem value={`item-${index}`} key={index} className="bg-black/20 backdrop-blur-md border border-[hsla(var(--border),0.3)] rounded-lg shadow-md overflow-hidden">
                       <AccordionTrigger className="hover:bg-black/20 px-4 py-3 rounded-t-lg transition-colors data-[state=open]:bg-black/30">
                         <div className="flex items-center gap-3 text-left w-full">
                           <IssueTypeIcon type={issue.type} className="w-5 h-5 text-red-400 flex-shrink-0" />
@@ -265,7 +265,7 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
                 })}
               </Accordion>
             ) : (
-              <div className="text-center py-8 liquid-glass-effect bg-black/10 backdrop-blur-md rounded-lg border-transparent shadow-md">
+              <div className="text-center py-8 bg-black/20 backdrop-blur-md border border-[hsla(var(--border),0.3)] rounded-lg shadow-md">
                 <CheckCircle className="h-12 w-12 text-[hsl(var(--score-high))] mx-auto mb-3" />
                 <p className="text-muted-foreground text-lg">No specific issues found. Fantastic job!</p>
               </div>
@@ -279,7 +279,7 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
               <h3 className="text-xl font-semibold mb-4 font-headline text-foreground">Suggestions for Improvement</h3>
               <ul className="space-y-3 list-none pl-0">
                 {suggestions.map((suggestion, index) => (
-                  <li key={index} className="text-sm text-foreground/90 flex items-start gap-3 p-3 liquid-glass-effect bg-black/10 backdrop-blur-md rounded-lg border-transparent shadow-sm">
+                  <li key={index} className="text-sm text-foreground/90 flex items-start gap-3 p-3 bg-black/20 backdrop-blur-md border border-[hsla(var(--border),0.3)] rounded-lg shadow-sm">
                     <Info className="h-5 w-5 text-[hsl(var(--primary))] mt-0.5 flex-shrink-0" />
                     <span>{suggestion}</span>
                   </li>
@@ -304,7 +304,7 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
               </Button>
             </div>
             {showPreviewPanel && (
-              <div className="p-4 liquid-glass-effect bg-black/10 backdrop-blur-lg rounded-xl border-transparent space-y-4 shadow-lg">
+              <div className="p-4 bg-black/20 backdrop-blur-lg border border-[hsla(var(--border),0.3)] rounded-xl space-y-4 shadow-lg">
                 <div className="flex gap-2 mb-3">
                   <Button
                     size="sm"

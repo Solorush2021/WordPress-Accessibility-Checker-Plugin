@@ -12,11 +12,11 @@
 @keyframes logo-pulse {
   0%, 100% {
     transform: scale(1);
-    filter: drop-shadow(0 0 2px hsl(var(--primary) / 0.5)) drop-shadow(0 0 2px hsl(var(--destructive) / 0.3));
+    filter: drop-shadow(0 0 2px hsl(var(--primary) / 0.5)) drop-shadow(0 0 2px hsla(340, 80%, 70%, 0.3));
   }
   50% {
     transform: scale(1.08);
-    filter: drop-shadow(0 0 5px hsl(var(--primary) / 0.8)) drop-shadow(0 0 5px hsl(var(--destructive) / 0.5));
+    filter: drop-shadow(0 0 5px hsl(var(--primary) / 0.8)) drop-shadow(0 0 5px hsla(340, 80%, 70%, 0.5));
   }
 }
 
@@ -34,8 +34,8 @@
     0 0 1px hsl(var(--primary-foreground)/0.7), /* Inner white-ish sharp glow */
     0 0 3px hsl(var(--primary)/0.8),  /* Orange halo */
     0 0 6px hsl(var(--primary)/0.6),
-    0 0 10px hsla(340, 80%, 65%, 0.7), /* Reddish-pink outer glow */
-    0 0 15px hsla(340, 80%, 65%, 0.5); /* Fainter reddish-pink outer glow */
+    0 0 10px hsla(340, 80%, 70%, 0.7), /* Reddish-pink outer glow */
+    0 0 15px hsla(340, 80%, 70%, 0.5); /* Fainter reddish-pink outer glow */
 }
 
 
@@ -150,4 +150,3 @@ body {
     img { @apply border border-slate-700; }
   }
 }
-

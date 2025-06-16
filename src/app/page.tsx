@@ -122,7 +122,7 @@ export default function AccessAssistantPage() {
             placeholder="Start writing or paste your post content here..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="liquid-glass-effect flex-grow min-h-[300px] md:min-h-[500px] p-4 shadow-inner focus:ring-ring focus:border-ring text-foreground text-base"
+            className="liquid-glass-effect flex-grow min-h-[300px] md:min-h-[500px] p-4 focus:ring-ring focus:border-ring text-foreground text-base"
             aria-label="Post Content Editor"
           />
           <Button
