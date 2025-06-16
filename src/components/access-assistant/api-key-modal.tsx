@@ -19,13 +19,16 @@ interface ApiKeyModalProps {
   onOpenChange: (isOpen: boolean) => void;
 }
 
-const DEFAULT_API_KEY = "AIzaSyDkbLl8YoEb7vCyhHEh6k1xeo4wmhvC9Zs";
+const DEFAULT_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || "AIzaSyDkbLl8YoEb7vCyhHEh6k1xeo4wmhvC9Zs";
 
 export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }) => {
   const [apiKey, setApiKey] = React.useState('');
 
   const handleSave = () => {
     localStorage.setItem('gemini_api_key', apiKey);
+    // Optionally, you might want to inform the Genkit instance about the new key
+    // if it needs to be updated dynamically without a page reload.
+    // For now, Genkit will use the .env key or the one set at initialization.
     onOpenChange(false);
   };
 
@@ -85,3 +88,4 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }
     </Dialog>
   );
 };
+
