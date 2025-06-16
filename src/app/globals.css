@@ -46,27 +46,30 @@
 .feature-ribbon {
   width: 100%;
   overflow: hidden;
-  background: hsl(var(--muted) / 0.2);
-  backdrop-filter: blur(3px);
-  padding: 0.5rem 0; /* Wider ribbon */
-  border-radius: calc(var(--radius) / 1.5); /* Slightly adjusted radius */
-  margin-top: 0.5rem; /* More spacing */
-  border: 1px solid hsl(var(--border) / 0.3);
-  box-shadow: 0 4px 12px hsla(var(--primary)/0.1);
+  background: hsl(var(--muted) / 0.1); /* Darker, more subtle for sci-fi */
+  backdrop-filter: blur(2px); /* Less blur for a sharper ticker look */
+  padding: 0.25rem 0; /* Narrower ribbon */
+  border-top: 1px solid hsl(var(--primary) / 0.3); /* Orange top border */
+  border-bottom: 1px solid hsl(var(--primary) / 0.3); /* Orange bottom border */
+  border-radius: 0; /* Sharp edges */
+  margin-top: 0.75rem;
+  box-shadow: 0 2px 8px hsla(var(--primary)/0.15);
 }
 
 .ribbon-text-scroll {
   display: inline-block;
   white-space: nowrap;
-  animation: scroll-right-to-left 40s linear infinite; /* Slower for wider text */
-  font-size: 0.85rem; /* Slightly larger text */
-  color: hsl(var(--accent-foreground));
+  animation: scroll-right-to-left 30s linear infinite; /* Can adjust speed */
+  font-size: 0.9rem; /* Monospace often looks good slightly larger or bolder */
+  text-transform: uppercase;
 }
 
-.ribbon-text-scroll span {
-   color: hsl(var(--accent));
-   font-weight: 600; /* Bolder keywords */
-   text-shadow: 0 0 3px hsl(var(--accent)/0.5);
+.ribbon-text-glow {
+  color: hsl(var(--primary)); /* Base orange/amber color */
+  text-shadow:
+    0 0 2px hsl(var(--primary) / 0.7), /* Main glow */
+    0 0 5px hsl(var(--primary) / 0.5), /* Softer halo */
+    0 0 8px hsl(var(--primary) / 0.3); /* Faintest outer glow */
 }
 
 
@@ -90,9 +93,7 @@
   height: 250px;
   background: radial-gradient(ellipse at center, hsl(210 70% 65% / 0.5), hsl(260 65% 70% / 0.3) 40%, transparent 70%);
   filter: blur(60px); /* Increased blur for softer, larger glow */
-  animation-name: float-orb1, pulse-orb;
-  animation-duration: 20s, 7s;
-  animation-delay: 0s, 0s;
+  animation: float-orb1 20s infinite ease-in-out, pulse-orb 7s infinite ease-in-out;
   top: -50px;
   left: -80px;
 }
@@ -102,9 +103,7 @@
   height: 300px;
   background: radial-gradient(ellipse at center, hsl(170 60% 55% / 0.4), hsl(210 70% 65% / 0.2) 45%, transparent 75%);
   filter: blur(70px);
-  animation-name: float-orb2, pulse-orb;
-  animation-duration: 25s, 9s;
-  animation-delay: -5s, -2s; /* Stagger start times */
+  animation: float-orb2 25s infinite ease-in-out -5s, pulse-orb 9s infinite ease-in-out -2s;
   bottom: -100px;
   right: -120px;
 }
@@ -114,9 +113,7 @@
   height: 200px;
   background: radial-gradient(ellipse at center, hsl(260 65% 70% / 0.45), hsl(170 60% 55% / 0.25) 35%, transparent 70%);
   filter: blur(50px);
-  animation-name: float-orb3, pulse-orb;
-  animation-duration: 18s, 6s;
-  animation-delay: -10s, -1s;
+  animation: float-orb3 18s infinite ease-in-out -10s, pulse-orb 6s infinite ease-in-out -1s;
   top: 20%;
   left: 30%;
   transform-origin: center;
