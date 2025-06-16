@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from 'react';
@@ -9,7 +10,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { IssueTypeIcon } from '@/components/icons/issue-type-icon';
 import { Separator } from '../ui/separator';
 import { Button } from '@/components/ui/button';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, CheckCircle, AlertTriangle, Info } from 'lucide-react';
 import { ResponsiveContainer, RadialBarChart, PolarAngleAxis, RadialBar } from 'recharts';
 
 interface AccessibilityMetaBoxProps {
@@ -23,18 +24,26 @@ const getScoreFillColor = (value: number): string => {
   return 'hsl(var(--score-high))';
 };
 
+const getScoreIcon = (value: number) => {
+  if (value < 50) return <AlertTriangle className="h-5 w-5 text-destructive" />;
+  if (value < 80) return <Info className="h-5 w-5 text-yellow-500" />; // Using a specific color here for emphasis
+  return <CheckCircle className="h-5 w-5 text-green-500" />; // Using a specific color here for emphasis
+};
+
+
 export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ analysisResult, isLoading }) => {
   if (isLoading) {
     return (
-      <Card className="w-full bg-card/60 backdrop-blur-lg shadow-xl border-border/30">
-        <CardHeader>
-          <CardTitle className="font-headline text-xl">Accessibility Check</CardTitle>
-          <CardDescription>Analyzing content...</CardDescription>
+      <Card className="w-full bg-card/80 backdrop-blur-xl shadow-2xl border-border/40 rounded-lg">
+        <CardHeader className="pb-4">
+          <CardTitle className="font-headline text-2xl text-primary flex items-center gap-2">
+            Accessibility Check
+          </CardTitle>
+          <CardDescription>Analyzing your content, please wait...</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-center py-10">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-          </div>
+        <CardContent className="space-y-4 flex flex-col items-center justify-center min-h-[300px]">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
+          <p className="text-lg text-muted-foreground animate-pulse">Scanning for issues...</p>
         </CardContent>
       </Card>
     );
@@ -42,12 +51,17 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
 
   if (!analysisResult) {
     return (
-      <Card className="w-full bg-card/60 backdrop-blur-lg shadow-xl border-border/30">
-        <CardHeader>
-          <CardTitle className="font-headline text-xl">Accessibility Check</CardTitle>
+      <Card className="w-full bg-card/80 backdrop-blur-xl shadow-2xl border-border/40 rounded-lg">
+        <CardHeader className="pb-4">
+          <CardTitle className="font-headline text-2xl text-primary flex items-center gap-2">
+            Accessibility Check
+          </CardTitle>
         </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground">Enter content and click "Analyze" to see accessibility insights.</p>
+        <CardContent className="min-h-[300px] flex flex-col items-center justify-center">
+          <Info className="h-12 w-12 text-muted-foreground mb-4" />
+          <p className="text-muted-foreground text-center">
+            Enter content in the editor and click "Analyze Content" to see accessibility insights.
+          </p>
         </CardContent>
       </Card>
     );
@@ -64,73 +78,75 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
   };
 
   return (
-    <Card className="w-full bg-card/70 backdrop-blur-xl shadow-2xl border-border/30 rounded-lg overflow-hidden">
-      <CardHeader className="bg-slate-500/5">
-        <CardTitle className="font-headline text-2xl text-primary flex items-center gap-2">
+    <Card className="w-full bg-card/80 backdrop-blur-xl shadow-2xl border-border/40 rounded-lg overflow-hidden">
+      <CardHeader className="bg-slate-500/10 pb-4">
+        <CardTitle className="font-headline text-2xl md:text-3xl text-primary flex items-center gap-2">
           Accessibility Insights
         </CardTitle>
-        <CardDescription>Review the accessibility status of your content.</CardDescription>
+        <CardDescription>A summary of the accessibility status of your content.</CardDescription>
       </CardHeader>
       
-      <ScrollArea className="h-[calc(100vh-200px)] md:h-auto md:max-h-[70vh]">
-        <CardContent className="p-6 space-y-6">
-          <div>
-            <h3 className="text-lg font-semibold mb-1 font-headline text-center">Overall Score</h3>
-            <div className="w-36 h-36 mx-auto my-2">
+      <ScrollArea className="h-[calc(100vh-220px)] md:h-auto md:max-h-[calc(70vh-50px)]">
+        <CardContent className="p-4 md:p-6 space-y-6">
+          <div className="text-center">
+            <h3 className="text-xl font-semibold mb-2 font-headline flex items-center justify-center gap-2">
+              {getScoreIcon(score)} Overall Score
+            </h3>
+            <div className="w-40 h-40 md:w-48 md:h-48 mx-auto my-3">
               <ResponsiveContainer width="100%" height="100%">
                 <RadialBarChart
                   cx="50%"
                   cy="50%"
                   innerRadius="70%"
                   outerRadius="90%"
-                  barSize={12}
+                  barSize={14}
                   data={scoreData}
                   startAngle={90}
                   endAngle={-270}
                 >
                   <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
                   <RadialBar
-                    background={{ fill: 'hsl(var(--muted))' }}
+                    background={{ fill: 'hsl(var(--muted)/0.3)' }}
                     dataKey="value"
-                    cornerRadius={6}
+                    cornerRadius={7}
                   />
-                  <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" className="text-2xl font-bold fill-primary">
+                  <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" className="text-3xl md:text-4xl font-bold fill-primary">
                     {score}
                   </text>
-                   <text x="50%" y="68%" textAnchor="middle" dominantBaseline="middle" className="text-xs fill-muted-foreground">
+                   <text x="50%" y="68%" textAnchor="middle" dominantBaseline="middle" className="text-sm fill-muted-foreground">
                     / 100
                   </text>
                 </RadialBarChart>
               </ResponsiveContainer>
             </div>
-            <p className="text-sm text-muted-foreground mt-1 text-center">
-              {score >= 80 ? "Great job!" : score >= 50 ? "Some improvements needed." : "Needs significant improvement."}
+            <p className="text-md text-muted-foreground mt-2">
+              {score >= 80 ? "Excellent! Your content is highly accessible." : score >= 50 ? "Good, but some improvements can be made." : "Needs significant improvement for better accessibility."}
             </p>
           </div>
 
-          <Separator />
+          <Separator className="my-6 border-border/50" />
 
           <div>
-            <h3 className="text-lg font-semibold mb-3 font-headline">Identified Issues ({issues.length})</h3>
+            <h3 className="text-xl font-semibold mb-4 font-headline">Identified Issues ({issues.length})</h3>
             {issues.length > 0 ? (
-              <Accordion type="single" collapsible className="w-full">
+              <Accordion type="single" collapsible className="w-full space-y-2">
                 {issues.map((issue, index) => (
-                  <AccordionItem value={`item-${index}`} key={index} className="border-border/50">
-                    <AccordionTrigger className="hover:bg-muted/30 px-2 rounded-md transition-colors">
-                      <div className="flex items-center gap-2 text-left">
-                        <IssueTypeIcon type={issue.type} className="w-5 h-5 text-destructive" />
-                        <span className="font-medium">{issue.type}</span>
-                        {issue.location && <Badge variant="outline" className="ml-auto text-xs hidden sm:inline-block">{issue.location}</Badge>}
+                  <AccordionItem value={`item-${index}`} key={index} className="border border-border/40 rounded-md shadow-sm bg-background/30 hover:bg-muted/20 transition-colors">
+                    <AccordionTrigger className="hover:bg-muted/30 px-3 py-3 rounded-t-md transition-colors data-[state=open]:bg-muted/20">
+                      <div className="flex items-center gap-3 text-left w-full">
+                        <IssueTypeIcon type={issue.type} className="w-6 h-6 text-destructive flex-shrink-0" />
+                        <span className="font-medium text-base text-foreground/90 flex-grow">{issue.type}</span>
+                        {issue.location && <Badge variant="outline" className="ml-auto text-xs hidden sm:inline-block py-1 px-2 border-primary/50 text-primary">{issue.location}</Badge>}
                       </div>
                     </AccordionTrigger>
-                    <AccordionContent className="px-2 py-3 bg-muted/10 rounded-b-md">
-                      <p className="text-sm text-foreground/80">{issue.message}</p>
+                    <AccordionContent className="px-3 py-4 bg-muted/10 rounded-b-md border-t border-border/30">
+                      <p className="text-sm text-foreground/80 mb-2">{issue.message}</p>
                       {issue.location && <p className="text-xs text-muted-foreground mt-1">Location: {issue.location}</p>}
-                      {issue.type.toLowerCase().includes('alt text') && (
+                      {issue.type.toLowerCase().includes('alt text') && ( // Example condition
                         <Button
                           variant="outline"
                           size="sm"
-                          className="mt-3 border-accent text-accent hover:bg-accent/10 hover:text-accent-foreground"
+                          className="mt-4 border-accent text-accent hover:bg-accent/10 hover:text-accent-foreground hover:shadow-md transition-all duration-150 ease-in-out"
                           onClick={() => handleSuggestFix(issue)}
                         >
                           <Sparkles className="mr-2 h-4 w-4" /> Suggest Fix
@@ -141,24 +157,28 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
                 ))}
               </Accordion>
             ) : (
-              <p className="text-muted-foreground">No specific issues found. Well done!</p>
+              <div className="text-center py-6 bg-muted/20 rounded-md">
+                <CheckCircle className="h-10 w-10 text-green-500 mx-auto mb-3" />
+                <p className="text-muted-foreground">No specific issues found. Fantastic job!</p>
+              </div>
             )}
           </div>
 
-          <Separator />
+          {suggestions.length > 0 && <Separator className="my-6 border-border/50" />}
           
-          <div>
-            <h3 className="text-lg font-semibold mb-3 font-headline">Suggestions for Improvement</h3>
-            {suggestions.length > 0 ? (
-              <ul className="space-y-2 list-disc list-inside pl-2">
+          {suggestions.length > 0 && (
+            <div>
+              <h3 className="text-xl font-semibold mb-4 font-headline">Suggestions for Improvement</h3>
+              <ul className="space-y-3 list-none pl-0">
                 {suggestions.map((suggestion, index) => (
-                  <li key={index} className="text-sm text-foreground/90">{suggestion}</li>
+                  <li key={index} className="text-sm text-foreground/90 flex items-start gap-2 p-3 bg-muted/20 rounded-md">
+                    <Info className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                    <span>{suggestion}</span>
+                  </li>
                 ))}
               </ul>
-            ) : (
-              <p className="text-muted-foreground">No specific suggestions at this time. Content looks good!</p>
-            )}
-          </div>
+            </div>
+          )}
         </CardContent>
       </ScrollArea>
     </Card>
