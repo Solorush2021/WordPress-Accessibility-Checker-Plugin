@@ -62,14 +62,14 @@ export default function AccessAssistantPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col p-4 md:p-8 selection:bg-primary/20 selection:text-primary">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-gray-100 to-stone-200 dark:from-slate-800 dark:via-gray-900 dark:to-stone-950 flex flex-col p-4 md:p-8 selection:bg-primary/20 selection:text-primary">
       <header className="mb-8 flex justify-between items-center">
-        <h1 className="text-3xl md:text-4xl font-headline text-primary">Access Assistant</h1>
+        <h1 className="text-3xl md:text-4xl font-headline text-primary dark:text-primary-foreground/90">Access Assistant</h1>
         <Button
           variant="outline"
           size="icon"
           onClick={() => setIsApiKeyModalOpen(true)}
-          className="border-primary/50 text-primary hover:bg-primary/10 hover:text-primary"
+          className="bg-white/30 dark:bg-slate-700/30 backdrop-blur-sm border-primary/50 text-primary dark:text-primary-foreground/80 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20 dark:hover:text-primary-foreground shadow-md"
           aria-label="Open API Key Settings"
         >
           <Settings className="h-5 w-5" />
@@ -78,7 +78,7 @@ export default function AccessAssistantPage() {
 
       <main className="flex-grow grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
         <div className="md:col-span-2 flex flex-col space-y-4">
-          <label htmlFor="postContent" className="text-lg font-semibold font-headline text-foreground/90">
+          <label htmlFor="postContent" className="text-lg font-semibold font-headline text-foreground/90 dark:text-foreground/80">
             Post Content Editor
           </label>
           <Textarea
@@ -86,14 +86,14 @@ export default function AccessAssistantPage() {
             placeholder="Start writing or paste your post content here..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="flex-grow min-h-[300px] md:min-h-[500px] p-4 rounded-lg shadow-inner bg-white dark:bg-gray-800 focus:ring-accent focus:border-accent text-base"
+            className="flex-grow min-h-[300px] md:min-h-[500px] p-4 rounded-lg shadow-inner bg-white/50 dark:bg-slate-800/40 backdrop-blur-sm focus:ring-accent focus:border-accent text-base border-slate-300 dark:border-slate-700"
             aria-label="Post Content Editor"
           />
           <Button
             onClick={handleAnalyzeContent}
             disabled={isLoading}
             size="lg"
-            className="w-full md:w-auto md:self-start bg-accent hover:bg-accent/90 text-accent-foreground transition-all duration-150 ease-in-out transform hover:scale-105 shadow-md hover:shadow-lg"
+            className="w-full md:w-auto md:self-start bg-accent hover:bg-accent/80 text-accent-foreground transition-all duration-150 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl backdrop-blur-md bg-opacity-80 dark:bg-opacity-70 border border-accent/50"
           >
             {isLoading ? (
               <>
@@ -116,9 +116,6 @@ export default function AccessAssistantPage() {
             content={content} 
             onApplySuggestion={(newContent: string) => {
               setContent(newContent);
-              // Optionally, re-analyze content after applying suggestion
-              // handleAnalyzeContent(); 
-              // Or update the analysisResult directly if the fix is simple
             }}
           />
         </div>
@@ -126,7 +123,7 @@ export default function AccessAssistantPage() {
 
       <ApiKeyModal isOpen={isApiKeyModalOpen} onOpenChange={setIsApiKeyModalOpen} />
       
-      <footer className="mt-12 text-center text-sm text-muted-foreground">
+      <footer className="mt-12 text-center text-sm text-muted-foreground/80 dark:text-muted-foreground/70">
         <p>&copy; {new Date().getFullYear()} Access Assistant. Enhance your content's accessibility.</p>
       </footer>
     </div>
