@@ -30,16 +30,12 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }
 
   React.useEffect(() => {
     if (isOpen) {
-      // Defer the execution slightly to ensure the modal is fully rendered
-      // and to avoid potential rapid state update conflicts.
-      setTimeout(() => {
-        const storedApiKey = localStorage.getItem('gemini_api_key');
-        if (storedApiKey) {
-          setApiKey(storedApiKey);
-        } else {
-          setApiKey('');
-        }
-      }, 0);
+      const storedApiKey = localStorage.getItem('gemini_api_key');
+      if (storedApiKey) {
+        setApiKey(storedApiKey);
+      } else {
+        setApiKey(''); // Clear if no key is stored
+      }
     }
   }, [isOpen]);
 

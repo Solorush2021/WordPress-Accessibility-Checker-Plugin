@@ -16,14 +16,13 @@ export default function AccessAssistantPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState<boolean>(false);
   const { toast } = useToast();
-  const [isDarkMode, setIsDarkMode] = useState(true); // Default to dark mode
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
 
   const [initialContent, setInitialContent] = useState('');
   useEffect(() => {
-    // Default to dark mode on initial load
     document.documentElement.classList.add('dark');
-    setIsDarkMode(true); // Explicitly set state to match
+    setIsDarkMode(true);
 
     setInitialContent("<h1>My Post Title</h1>\n<p>This is some example content with an image <img src='https://placehold.co/300x200.png' data-ai-hint='abstract placeholder' alt='A placeholder image'> and a <a href='#'>link</a>.</p>\n<p>Another paragraph without proper headings perhaps.</p><h2>Subheading</h2><p>Text under subheading.<img src='https://placehold.co/200x150.png' data-ai-hint='nature landscape' alt='Another placeholder image'></p>");
   }, []);
@@ -95,7 +94,7 @@ export default function AccessAssistantPage() {
             variant="outline"
             size="icon"
             onClick={toggleDarkMode}
-            className="bg-card/50 hover:bg-card/70 border-primary/30 text-foreground backdrop-blur-sm shadow-md"
+            className="liquid-glass-effect bg-gradient-to-r from-[hsl(var(--card)/0.5)] to-[hsl(var(--card)/0.3)] hover:from-[hsl(var(--card)/0.7)] hover:to-[hsl(var(--card)/0.5)] text-foreground backdrop-blur-sm border-primary/30 shadow-md"
             aria-label="Toggle Dark Mode"
           >
             {isDarkMode ? <Sun className="h-5 w-5 text-yellow-400" /> : <Moon className="h-5 w-5 text-blue-300" />}
@@ -104,7 +103,7 @@ export default function AccessAssistantPage() {
             variant="outline"
             size="icon"
             onClick={handleSettingsClick}
-            className="bg-card/50 hover:bg-card/70 border-primary/30 text-foreground backdrop-blur-sm shadow-md" // Simplified styling
+            className="liquid-glass-effect bg-gradient-to-r from-[hsl(var(--primary)/0.2)] to-[hsl(var(--accent)/0.2)] hover:from-[hsl(var(--primary)/0.4)] hover:to-[hsl(var(--accent)/0.4)] text-foreground backdrop-blur-sm border-transparent shadow-md"
             aria-label="Open API Key Settings"
           >
             <Settings className="h-5 w-5" />
