@@ -16,15 +16,13 @@ export default function AccessAssistantPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState<boolean>(false);
   const { toast } = useToast();
-  // Default to dark mode as per new styling preference
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(true); // Default to dark mode
 
 
   const [initialContent, setInitialContent] = useState('');
   useEffect(() => {
-    // Initialize with dark mode
     document.documentElement.classList.add('dark');
-    setInitialContent("<h1>My Post Title</h1>\n<p>This is some example content with an image <img src='https://placehold.co/300x200.png' data-ai-hint='abstract placeholder' alt=''> and a <a href='#'>link</a>.</p>\n<p>Another paragraph without proper headings perhaps.</p><h2>Subheading</h2><p>Text under subheading.<img src='https://placehold.co/200x150.png' data-ai-hint='nature landscape'></p>");
+    setInitialContent("<h1>My Post Title</h1>\n<p>This is some example content with an image <img src='https://placehold.co/300x200.png' data-ai-hint='abstract placeholder' alt='A placeholder image'> and a <a href='#'>link</a>.</p>\n<p>Another paragraph without proper headings perhaps.</p><h2>Subheading</h2><p>Text under subheading.<img src='https://placehold.co/200x150.png' data-ai-hint='nature landscape' alt='Another placeholder image'></p>");
   }, []);
 
   useEffect(() => {
@@ -43,6 +41,11 @@ export default function AccessAssistantPage() {
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
+  };
+
+  const handleSettingsClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    setIsApiKeyModalOpen(true);
   };
 
 
@@ -97,7 +100,7 @@ export default function AccessAssistantPage() {
           <Button
             variant="outline"
             size="icon"
-            onClick={() => setIsApiKeyModalOpen(true)}
+            onClick={handleSettingsClick}
             className="liquid-glass-effect bg-[linear-gradient(120deg,hsl(var(--primary)/0.1),hsl(var(--accent)/0.1),hsl(var(--primary)/0.1))] hover:bg-[linear-gradient(120deg,hsl(var(--primary)/0.2),hsl(var(--accent)/0.2),hsl(var(--primary)/0.2))] text-primary-foreground backdrop-blur-sm border-primary/50 shadow-md"
             aria-label="Open API Key Settings"
           >
@@ -146,6 +149,8 @@ export default function AccessAssistantPage() {
             content={content}
             onApplySuggestion={(newContent: string) => {
               setContent(newContent);
+              // Optionally, re-analyze after applying suggestion
+              // handleAnalyzeContent(); 
             }}
           />
         </div>
