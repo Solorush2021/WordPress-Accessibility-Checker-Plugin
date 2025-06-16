@@ -1,4 +1,5 @@
-// 'use server';
+
+'use server';
 
 /**
  * @fileOverview Analyzes WordPress post content for accessibility issues using GenAI.
@@ -7,8 +8,6 @@
  * - AnalyzeAccessibilityInput - The input type for the analyzeAccessibility function.
  * - AnalyzeAccessibilityOutput - The return type for the analyzeAccessibility function.
  */
-
-'use server';
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
@@ -58,8 +57,14 @@ const analyzeAccessibilityFlow = ai.defineFlow(
     inputSchema: AnalyzeAccessibilityInputSchema,
     outputSchema: AnalyzeAccessibilityOutputSchema,
   },
-  async input => {
-    const {output} = await analyzeAccessibilityPrompt(input);
-    return output!;
+  async (input: AnalyzeAccessibilityInput): Promise<AnalyzeAccessibilityOutput> => {
+    const result = await analyzeAccessibilityPrompt(input);
+    if (!result.output) {
+      console.error('Accessibility analysis flow: No output received from prompt.', { input, result });
+      // Genkit should ideally throw if output schema is not met.
+      // If it reaches here, it means the prompt resolved but output is falsy.
+      throw new Error('Analysis did not produce the expected output structure.');
+    }
+    return result.output;
   }
 );
