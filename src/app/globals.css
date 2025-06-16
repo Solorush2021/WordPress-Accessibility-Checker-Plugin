@@ -3,11 +3,11 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes flowing-liquid {
+/* @keyframes flowing-liquid {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
-}
+} */
 
 @keyframes logo-pulse {
   0%, 100% {
@@ -21,11 +21,9 @@
 }
 
 .liquid-glass-effect {
-  background: linear-gradient(270deg, hsl(var(--primary)/0.2), hsl(var(--accent)/0.2), hsl(var(--background)/0.7), hsl(var(--accent)/0.2), hsl(var(--primary)/0.2));
-  background-size: 400% 400%;
-  animation: flowing-liquid 15s ease infinite;
-  border: 1px solid hsla(var(--primary-foreground), 0.15);
-  box-shadow: 0 8px 32px 0 hsla(var(--primary), 0.25);
+  background: hsl(var(--card) / 0.3); /* Static semi-transparent card background */
+  border: 1px solid hsla(var(--primary-foreground), 0.15); /* Subtle light border */
+  box-shadow: 0 8px 32px 0 hsla(0, 0%, 0%, 0.2); /* Neutral shadow for depth */
   backdrop-filter: blur(10px);
   border-radius: var(--radius); /* Use the theme radius */
 }
@@ -152,3 +150,4 @@ body {
     img { @apply border border-slate-700; }
   }
 }
+
