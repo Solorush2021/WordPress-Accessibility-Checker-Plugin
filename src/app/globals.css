@@ -16,54 +16,136 @@
 }
 
 .liquid-glass-effect {
-  background: hsl(var(--card) / 0.3); 
-  border: 1px solid hsla(var(--primary-foreground), 0.15); 
-  box-shadow: 0 8px 32px 0 hsla(0, 0%, 0%, 0.2); 
+  background: hsl(var(--card) / 0.3);
+  border: 1px solid hsla(var(--primary-foreground), 0.15);
+  box-shadow: 0 8px 32px 0 hsla(0, 0%, 0%, 0.2);
   backdrop-filter: blur(10px);
-  border-radius: var(--radius); 
+  border-radius: var(--radius);
 }
 
 .neon-orange-red-glow {
   color: hsl(var(--primary)); /* Orange text */
   text-shadow:
-    0 0 1px hsl(var(--primary-foreground)/0.85), /* Inner white-ish sharp glow - slightly more opaque */
-    0 0 3px hsl(var(--primary)/0.9),  /* Stronger Orange halo - more opaque */
-    0 0 7px hsl(var(--primary)/0.6), /* Slightly softer Orange halo */
-    0 0 10px hsla(340, 80%, 70%, 0.6), /* Reddish-pink outer glow - slightly less spread, bit less intense */
-    0 0 15px hsla(340, 80%, 70%, 0.4); /* Fainter reddish-pink outer glow - less intense */
+    0 0 1px hsl(var(--primary-foreground)/0.85), /* Inner white-ish sharp glow */
+    0 0 4px hsl(var(--primary)/0.9),  /* Stronger Orange halo */
+    0 0 8px hsl(var(--primary)/0.5), /* Softer Orange halo */
+    0 0 12px hsla(340, 90%, 65%, 0.55), /* Reddish-pink outer glow - more vibrant */
+    0 0 20px hsla(340, 90%, 65%, 0.35); /* Fainter reddish-pink outer glow */
 }
+
 
 @keyframes scroll-right-to-left {
   0% {
-    transform: translateX(0%); /* Start with the first set of text visible */
+    transform: translateX(0%);
   }
   100% {
-    transform: translateX(-50%); /* Scroll until the second set of text takes place of the first */
+    transform: translateX(-50%);
   }
 }
 
 .feature-ribbon {
   width: 100%;
   overflow: hidden;
-  background: hsl(var(--muted) / 0.2); /* Dark translucent background */
+  background: hsl(var(--muted) / 0.2);
   backdrop-filter: blur(3px);
-  padding: 0.3rem 0;
-  border-radius: calc(var(--radius) / 2);
-  margin-top: 0.25rem; /* Spacing from the main title */
+  padding: 0.5rem 0; /* Wider ribbon */
+  border-radius: calc(var(--radius) / 1.5); /* Slightly adjusted radius */
+  margin-top: 0.5rem; /* More spacing */
   border: 1px solid hsl(var(--border) / 0.3);
+  box-shadow: 0 4px 12px hsla(var(--primary)/0.1);
 }
 
 .ribbon-text-scroll {
-  display: inline-block; /* Changed from flex to inline-block for simpler text animation */
+  display: inline-block;
   white-space: nowrap;
-  animation: scroll-right-to-left 30s linear infinite; /* Adjust duration as needed */
-  font-size: 0.8rem; /* Smaller text for features */
-  color: hsl(var(--accent-foreground)); /* Bright text, e.g., white */
+  animation: scroll-right-to-left 40s linear infinite; /* Slower for wider text */
+  font-size: 0.85rem; /* Slightly larger text */
+  color: hsl(var(--accent-foreground));
 }
 
 .ribbon-text-scroll span {
-   color: hsl(var(--accent)); /* Using accent color (green) for the text */
-   font-weight: 500;
+   color: hsl(var(--accent));
+   font-weight: 600; /* Bolder keywords */
+   text-shadow: 0 0 3px hsl(var(--accent)/0.5);
+}
+
+
+/* AI Activation Animation Styles */
+.ai-activation-container {
+  position: relative;
+  overflow: hidden; /* Crucial for containing the orbs */
+}
+
+.ai-orb {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0; /* Start invisible, fade in with animation */
+  mix-blend-mode: screen; /* For additive color blending on dark backgrounds */
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.ai-orb-1 {
+  width: 300px;
+  height: 250px;
+  background: radial-gradient(ellipse at center, hsl(210 70% 65% / 0.5), hsl(260 65% 70% / 0.3) 40%, transparent 70%);
+  filter: blur(60px); /* Increased blur for softer, larger glow */
+  animation-name: float-orb1, pulse-orb;
+  animation-duration: 20s, 7s;
+  animation-delay: 0s, 0s;
+  top: -50px;
+  left: -80px;
+}
+
+.ai-orb-2 {
+  width: 350px;
+  height: 300px;
+  background: radial-gradient(ellipse at center, hsl(170 60% 55% / 0.4), hsl(210 70% 65% / 0.2) 45%, transparent 75%);
+  filter: blur(70px);
+  animation-name: float-orb2, pulse-orb;
+  animation-duration: 25s, 9s;
+  animation-delay: -5s, -2s; /* Stagger start times */
+  bottom: -100px;
+  right: -120px;
+}
+
+.ai-orb-3 {
+  width: 250px;
+  height: 200px;
+  background: radial-gradient(ellipse at center, hsl(260 65% 70% / 0.45), hsl(170 60% 55% / 0.25) 35%, transparent 70%);
+  filter: blur(50px);
+  animation-name: float-orb3, pulse-orb;
+  animation-duration: 18s, 6s;
+  animation-delay: -10s, -1s;
+  top: 20%;
+  left: 30%;
+  transform-origin: center;
+}
+
+@keyframes float-orb1 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.3; }
+  25% { transform: translate(40px, 20px) rotate(10deg); opacity: 0.6; }
+  50% { transform: translate(-20px, -30px) rotate(-5deg); opacity: 0.4; }
+  75% { transform: translate(30px, -10px) rotate(5deg); opacity: 0.7; }
+}
+
+@keyframes float-orb2 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.25; }
+  25% { transform: translate(-50px, -30px) rotate(-15deg); opacity: 0.5; }
+  50% { transform: translate(30px, 40px) rotate(10deg); opacity: 0.35; }
+  75% { transform: translate(-20px, 20px) rotate(-8deg); opacity: 0.6; }
+}
+
+@keyframes float-orb3 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.35;}
+  25% { transform: translate(20px, -40px) rotate(20deg) scale(1.1); opacity: 0.65;}
+  50% { transform: translate(-30px, 10px) rotate(-10deg) scale(0.9); opacity: 0.4;}
+  75% { transform: translate(10px, 30px) rotate(15deg) scale(1.05); opacity: 0.55;}
+}
+
+@keyframes pulse-orb {
+  0%, 100% { opacity: 0.3; filter: blur(50px); }
+  50% { opacity: 0.7; filter: blur(60px); }
 }
 
 
