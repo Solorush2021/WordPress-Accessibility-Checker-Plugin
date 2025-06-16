@@ -69,7 +69,7 @@
   display: inline-block;
   white-space: nowrap;
   animation: scroll-right-to-left 30s linear infinite; /* Slower scroll */
-  font-size: 0.9rem; 
+  font-size: 0.9rem;
   text-transform: uppercase;
 }
 
@@ -85,7 +85,7 @@
   color: hsl(var(--primary-foreground)); /* White text for Ribbon 1 */
   text-shadow:
     /* Striking Red Outline */
-    -1px -1px 0 hsl(0, 85%, 50%),  
+    -1px -1px 0 hsl(0, 85%, 50%),
      1px -1px 0 hsl(0, 85%, 50%),
     -1px  1px 0 hsl(0, 85%, 50%),
      1px  1px 0 hsl(0, 85%, 50%),
@@ -94,17 +94,17 @@
     0 0 7px hsl(0, 85%, 50% / 0.6);
 }
 
-.ribbon-text-glow-yellow { /* Class name kept for consistency, but color is now orange with reddish-pink glow */
+.ribbon-text-glow-yellow {
   color: hsl(var(--primary)); /* Orange text for Ribbon 2 */
   text-shadow:
-    /* Reddish-Pink Outline */
-    -1px -1px 0 hsla(340, 80%, 60%, 1),  
-     1px -1px 0 hsla(340, 80%, 60%, 1),
-    -1px  1px 0 hsla(340, 80%, 60%, 1),
-     1px  1px 0 hsla(340, 80%, 60%, 1),
-    /* Softer Reddish-Pink Glow */
-    0 0 4px hsla(340, 80%, 60%, 0.7),
-    0 0 7px hsla(340, 80%, 60%, 0.5);
+    /* Slightly darker/less intense Reddish-Pink Outline for better contrast with Orange */
+    -1px -1px 0 hsla(340, 75%, 55%, 0.9),
+     1px -1px 0 hsla(340, 75%, 55%, 0.9),
+    -1px  1px 0 hsla(340, 75%, 55%, 0.9),
+     1px  1px 0 hsla(340, 75%, 55%, 0.9),
+    /* Softer, more controlled Reddish-Pink Glow */
+    0 0 3px hsla(340, 75%, 55%, 0.6),
+    0 0 5px hsla(340, 75%, 55%, 0.4);
 }
 
 
