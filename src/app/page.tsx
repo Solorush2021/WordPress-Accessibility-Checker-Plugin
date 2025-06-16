@@ -19,7 +19,7 @@ export default function AccessAssistantPage() {
   // Avoid hydration mismatch for initial content if it were dynamic
   const [initialContent, setInitialContent] = useState('');
   useEffect(() => {
-    setInitialContent("<h1>My Post Title</h1>\n<p>This is some example content with an image <img src='https://placehold.co/300x200.png' alt='Placeholder image'> and a <a href='#'>link</a>.</p>\n<p>Another paragraph without proper headings perhaps.</p><h2>Subheading</h2><p>Text under subheading.</p>");
+    setInitialContent("<h1>My Post Title</h1>\n<p>This is some example content with an image <img src='https://placehold.co/300x200.png' data-ai-hint='abstract placeholder' alt='Placeholder image'> and a <a href='#'>link</a>.</p>\n<p>Another paragraph without proper headings perhaps.</p><h2>Subheading</h2><p>Text under subheading.</p>");
   }, []);
 
   useEffect(() => {
@@ -108,7 +108,7 @@ export default function AccessAssistantPage() {
           </Button>
         </div>
 
-        <div className="md:col-span-1">
+        <div className="md:col-span-1 flex flex-col">
           <AccessibilityMetaBox analysisResult={analysisResult} isLoading={isLoading} />
         </div>
       </main>

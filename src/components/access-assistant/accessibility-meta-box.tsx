@@ -34,14 +34,14 @@ const getScoreIcon = (value: number) => {
 export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ analysisResult, isLoading }) => {
   if (isLoading) {
     return (
-      <Card className="w-full bg-card/80 backdrop-blur-xl shadow-2xl border-border/40 rounded-lg">
+      <Card className="w-full bg-card/80 backdrop-blur-xl shadow-2xl border-border/40 rounded-lg flex flex-col flex-grow">
         <CardHeader className="pb-4">
           <CardTitle className="font-headline text-2xl text-primary flex items-center gap-2">
             Accessibility Check
           </CardTitle>
           <CardDescription>Analyzing your content, please wait...</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4 flex flex-col items-center justify-center min-h-[300px]">
+        <CardContent className="space-y-4 flex flex-col items-center justify-center flex-grow min-h-[300px]">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
           <p className="text-lg text-muted-foreground animate-pulse">Scanning for issues...</p>
         </CardContent>
@@ -51,13 +51,13 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
 
   if (!analysisResult) {
     return (
-      <Card className="w-full bg-card/80 backdrop-blur-xl shadow-2xl border-border/40 rounded-lg">
+      <Card className="w-full bg-card/80 backdrop-blur-xl shadow-2xl border-border/40 rounded-lg flex flex-col flex-grow">
         <CardHeader className="pb-4">
           <CardTitle className="font-headline text-2xl text-primary flex items-center gap-2">
             Accessibility Check
           </CardTitle>
         </CardHeader>
-        <CardContent className="min-h-[300px] flex flex-col items-center justify-center">
+        <CardContent className="min-h-[300px] flex flex-col items-center justify-center flex-grow">
           <Info className="h-12 w-12 text-muted-foreground mb-4" />
           <p className="text-muted-foreground text-center">
             Enter content in the editor and click "Analyze Content" to see accessibility insights.
@@ -78,7 +78,7 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
   };
 
   return (
-    <Card className="w-full bg-card/80 backdrop-blur-xl shadow-2xl border-border/40 rounded-lg overflow-hidden">
+    <Card className="w-full bg-card/80 backdrop-blur-xl shadow-2xl border-border/40 rounded-lg overflow-hidden flex flex-col flex-grow">
       <CardHeader className="bg-slate-500/10 pb-4">
         <CardTitle className="font-headline text-2xl md:text-3xl text-primary flex items-center gap-2">
           Accessibility Insights
@@ -86,7 +86,7 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
         <CardDescription>A summary of the accessibility status of your content.</CardDescription>
       </CardHeader>
       
-      <ScrollArea className="h-[calc(100vh-220px)] md:h-auto md:max-h-[calc(70vh-50px)]">
+      <ScrollArea className="flex-grow">
         <CardContent className="p-4 md:p-6 space-y-6">
           <div className="text-center">
             <h3 className="text-xl font-semibold mb-2 font-headline flex items-center justify-center gap-2">
