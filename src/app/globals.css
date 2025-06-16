@@ -43,6 +43,16 @@
   }
 }
 
+@keyframes scroll-left-to-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+
 .feature-ribbon {
   width: 100%;
   overflow: hidden;
@@ -52,7 +62,7 @@
   border-top: 1px solid hsl(var(--primary) / 0.3); /* Orange top border */
   border-bottom: 1px solid hsl(var(--primary) / 0.3); /* Orange bottom border */
   border-radius: 0; /* Sharp edges */
-  margin-top: 0.75rem;
+  /* margin-top: 0.75rem; Removed to control spacing from page.tsx if multiple ribbons */
   box-shadow: 0 2px 8px hsla(var(--primary)/0.15);
 }
 
@@ -61,6 +71,14 @@
   white-space: nowrap;
   animation: scroll-right-to-left 20s linear infinite; /* Faster scroll */
   font-size: 0.9rem; /* Monospace often looks good slightly larger or bolder */
+  text-transform: uppercase;
+}
+
+.ribbon-text-scroll-reverse {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll-left-to-right 20s linear infinite; /* Same speed, opposite direction */
+  font-size: 0.9rem;
   text-transform: uppercase;
 }
 
@@ -257,5 +275,3 @@ body {
     img { @apply border border-slate-700; }
   }
 }
-
-    

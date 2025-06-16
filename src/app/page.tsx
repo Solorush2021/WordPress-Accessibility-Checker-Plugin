@@ -46,7 +46,7 @@ export default function AccessAssistantPage() {
   };
 
   const handleSettingsClick = (event: React.MouseEvent) => {
-    event.stopPropagation();
+    // event.stopPropagation(); // Reverted this line as it might not be the sole cause.
     setIsApiKeyModalOpen(true);
   };
 
@@ -97,6 +97,11 @@ export default function AccessAssistantPage() {
           </h1>
           <div className="feature-ribbon mt-3">
             <div className="font-code ribbon-text-scroll ribbon-text-glow">
+              {repeatedRibbonText}
+            </div>
+          </div>
+           <div className="feature-ribbon">
+            <div className="font-code ribbon-text-scroll-reverse ribbon-text-glow">
               {repeatedRibbonText}
             </div>
           </div>
