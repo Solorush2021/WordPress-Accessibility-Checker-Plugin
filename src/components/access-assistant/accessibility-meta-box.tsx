@@ -1,8 +1,9 @@
 
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import type { AnalyzeAccessibilityOutput } from '@/ai/flows/analyze-accessibility';
+import { suggestAltText, type SuggestAltTextInput } from '@/ai/flows/suggest-alt-text';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
@@ -10,12 +11,15 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { IssueTypeIcon } from '@/components/icons/issue-type-icon';
 import { Separator } from '../ui/separator';
 import { Button } from '@/components/ui/button';
-import { Sparkles, CheckCircle, AlertTriangle, Info } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { Sparkles, CheckCircle, AlertTriangle, Info, Loader2 } from 'lucide-react';
 import { ResponsiveContainer, RadialBarChart, PolarAngleAxis, RadialBar } from 'recharts';
 
 interface AccessibilityMetaBoxProps {
   analysisResult: AnalyzeAccessibilityOutput | null;
   isLoading: boolean;
+  content: string; // Full HTML content from the editor
+  onApplySuggestion: (newContent: string) => void; // Callback to apply suggestion to editor
 }
 
 const getScoreFillColor = (value: number): string => {
@@ -26,12 +30,97 @@ const getScoreFillColor = (value: number): string => {
 
 const getScoreIcon = (value: number) => {
   if (value < 50) return <AlertTriangle className="h-5 w-5 text-destructive" />;
-  if (value < 80) return <Info className="h-5 w-5 text-yellow-500" />; // Using a specific color here for emphasis
-  return <CheckCircle className="h-5 w-5 text-green-500" />; // Using a specific color here for emphasis
+  if (value < 80) return <Info className="h-5 w-5 text-yellow-500" />;
+  return <CheckCircle className="h-5 w-5 text-green-500" />;
 };
 
+async function imageUrlToDataUri(url: string): Promise<string> {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch image: ${response.status} ${response.statusText}`);
+    }
+    const blob = await response.blob();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  } catch (error) {
+    console.error("Error converting image URL to Data URI:", error);
+    throw error; // Re-throw to be caught by caller
+  }
+}
 
-export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ analysisResult, isLoading }) => {
+export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ analysisResult, isLoading, content, onApplySuggestion }) => {
+  const { toast } = useToast();
+  const [suggestingFixFor, setSuggestingFixFor] = useState<string | null>(null); // Stores 'type-index' of issue
+
+  const handleSuggestFix = async (issue: AnalyzeAccessibilityOutput['issues'][number], issueIndex: number) => {
+    const issueKey = `${issue.type}-${issueIndex}`;
+    setSuggestingFixFor(issueKey);
+
+    if (issue.type.toLowerCase().includes('alt text') && issue.elementContext) {
+      const imageSrc = issue.elementContext;
+      try {
+        const imageDataUri = await imageUrlToDataUri(imageSrc);
+        const suggestionInput: SuggestAltTextInput = {
+          imageDataUri: imageDataUri,
+          existingAltText: '', // Could try to parse existing alt text if available
+        };
+        const result = await suggestAltText(suggestionInput);
+        
+        toast({
+          title: 'Alt Text Suggestion',
+          description: (
+            <div>
+              <p>Suggested: "{result.suggestedAltText}" for image: {imageSrc}</p>
+              <Button 
+                size="sm" 
+                className="mt-2"
+                onClick={() => {
+                  // Basic way to apply: find image by src and set alt.
+                  // This is a simplified approach and might need a more robust HTML parser for complex cases.
+                  const tempDiv = document.createElement('div');
+                  tempDiv.innerHTML = content;
+                  const imgElement = tempDiv.querySelector<HTMLImageElement>(`img[src="${imageSrc}"]`);
+                  if (imgElement) {
+                    imgElement.alt = result.suggestedAltText;
+                    onApplySuggestion(tempDiv.innerHTML);
+                     toast({ title: 'Success', description: 'Alt text applied to content editor.'});
+                  } else {
+                     toast({ title: 'Error', description: 'Could not find image in content to apply alt text.', variant: 'destructive'});
+                  }
+                }}
+              >
+                Apply to Content
+              </Button>
+            </div>
+          ),
+          duration: 10000, // Keep toast longer for interaction
+        });
+
+      } catch (error: any) {
+        console.error('Failed to suggest alt text:', error);
+        const errorMessage = error.message || 'Could not suggest alt text.';
+        toast({
+          title: 'Suggestion Failed',
+          description: errorMessage,
+          variant: 'destructive',
+        });
+      }
+    } else {
+      toast({
+        title: 'Cannot Suggest Fix',
+        description: 'Fix suggestion is not available for this issue type or context is missing.',
+        variant: 'destructive',
+      });
+    }
+    setSuggestingFixFor(null);
+  };
+
+
   if (isLoading) {
     return (
       <Card className="w-full bg-card/80 backdrop-blur-xl shadow-2xl border-border/40 rounded-lg flex flex-col flex-grow">
@@ -69,13 +158,6 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
 
   const { score, issues, suggestions } = analysisResult;
   const scoreData = [{ name: 'score', value: score, fill: getScoreFillColor(score) }];
-
-  const handleSuggestFix = (issue: AnalyzeAccessibilityOutput['issues'][number]) => {
-    // Placeholder for now. This will be connected to an AI flow.
-    console.log('Suggest fix for issue:', issue);
-    // Potentially call suggestAltText({ imageDataUri: '...', existingAltText: '...' }) if it's an image issue
-    // and we have a way to get the image data or relevant context.
-  };
 
   return (
     <Card className="w-full bg-card/80 backdrop-blur-xl shadow-2xl border-border/40 rounded-lg overflow-hidden flex flex-col flex-grow">
@@ -130,31 +212,41 @@ export const AccessibilityMetaBox: React.FC<AccessibilityMetaBoxProps> = ({ anal
             <h3 className="text-xl font-semibold mb-4 font-headline">Identified Issues ({issues.length})</h3>
             {issues.length > 0 ? (
               <Accordion type="single" collapsible className="w-full space-y-2">
-                {issues.map((issue, index) => (
-                  <AccordionItem value={`item-${index}`} key={index} className="border border-border/40 rounded-md shadow-sm bg-background/30 hover:bg-muted/20 transition-colors">
-                    <AccordionTrigger className="hover:bg-muted/30 px-3 py-3 rounded-t-md transition-colors data-[state=open]:bg-muted/20">
-                      <div className="flex items-center gap-3 text-left w-full">
-                        <IssueTypeIcon type={issue.type} className="w-6 h-6 text-destructive flex-shrink-0" />
-                        <span className="font-medium text-base text-foreground/90 flex-grow">{issue.type}</span>
-                        {issue.location && <Badge variant="outline" className="ml-auto text-xs hidden sm:inline-block py-1 px-2 border-primary/50 text-primary">{issue.location}</Badge>}
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="px-3 py-4 bg-muted/10 rounded-b-md border-t border-border/30">
-                      <p className="text-sm text-foreground/80 mb-2">{issue.message}</p>
-                      {issue.location && <p className="text-xs text-muted-foreground mt-1">Location: {issue.location}</p>}
-                      {issue.type.toLowerCase().includes('alt text') && ( // Example condition
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="mt-4 border-accent text-accent hover:bg-accent/10 hover:text-accent-foreground hover:shadow-md transition-all duration-150 ease-in-out"
-                          onClick={() => handleSuggestFix(issue)}
-                        >
-                          <Sparkles className="mr-2 h-4 w-4" /> Suggest Fix
-                        </Button>
-                      )}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
+                {issues.map((issue, index) => {
+                  const issueKey = `${issue.type}-${index}`;
+                  const isSuggestingCurrentFix = suggestingFixFor === issueKey;
+                  return (
+                    <AccordionItem value={`item-${index}`} key={index} className="border border-border/40 rounded-md shadow-sm bg-background/30 hover:bg-muted/20 transition-colors">
+                      <AccordionTrigger className="hover:bg-muted/30 px-3 py-3 rounded-t-md transition-colors data-[state=open]:bg-muted/20">
+                        <div className="flex items-center gap-3 text-left w-full">
+                          <IssueTypeIcon type={issue.type} className="w-6 h-6 text-destructive flex-shrink-0" />
+                          <span className="font-medium text-base text-foreground/90 flex-grow">{issue.type}</span>
+                          {issue.location && <Badge variant="outline" className="ml-auto text-xs hidden sm:inline-block py-1 px-2 border-primary/50 text-primary">{issue.location}</Badge>}
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="px-3 py-4 bg-muted/10 rounded-b-md border-t border-border/30">
+                        <p className="text-sm text-foreground/80 mb-2">{issue.message}</p>
+                        {issue.elementContext && issue.type.toLowerCase().includes('image') && <p className="text-xs text-muted-foreground mt-1">Image: {issue.elementContext}</p>}
+                        {issue.type.toLowerCase().includes('alt text') && issue.elementContext && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="mt-4 border-accent text-accent hover:bg-accent/10 hover:text-accent-foreground hover:shadow-md transition-all duration-150 ease-in-out"
+                            onClick={() => handleSuggestFix(issue, index)}
+                            disabled={isSuggestingCurrentFix}
+                          >
+                            {isSuggestingCurrentFix ? (
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            ) : (
+                              <Sparkles className="mr-2 h-4 w-4" />
+                            )}
+                            Suggest Fix
+                          </Button>
+                        )}
+                      </AccordionContent>
+                    </AccordionItem>
+                  );
+                })}
               </Accordion>
             ) : (
               <div className="text-center py-6 bg-muted/20 rounded-md">

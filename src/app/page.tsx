@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -16,10 +17,9 @@ export default function AccessAssistantPage() {
   const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState<boolean>(false);
   const { toast } = useToast();
 
-  // Avoid hydration mismatch for initial content if it were dynamic
   const [initialContent, setInitialContent] = useState('');
   useEffect(() => {
-    setInitialContent("<h1>My Post Title</h1>\n<p>This is some example content with an image <img src='https://placehold.co/300x200.png' data-ai-hint='abstract placeholder' alt='Placeholder image'> and a <a href='#'>link</a>.</p>\n<p>Another paragraph without proper headings perhaps.</p><h2>Subheading</h2><p>Text under subheading.</p>");
+    setInitialContent("<h1>My Post Title</h1>\n<p>This is some example content with an image <img src='https://placehold.co/300x200.png' data-ai-hint='abstract placeholder' alt=''> and a <a href='#'>link</a>.</p>\n<p>Another paragraph without proper headings perhaps.</p><h2>Subheading</h2><p>Text under subheading.<img src='https://placehold.co/200x150.png' data-ai-hint='nature landscape'></p>");
   }, []);
 
   useEffect(() => {
@@ -48,11 +48,12 @@ export default function AccessAssistantPage() {
         title: 'Analysis Complete',
         description: 'Accessibility report generated successfully.',
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Accessibility analysis failed:', error);
+      const errorMessage = error.message || 'An error occurred while analyzing content. Please try again.';
       toast({
         title: 'Analysis Failed',
-        description: 'An error occurred while analyzing content. Please try again.',
+        description: errorMessage,
         variant: 'destructive',
       });
     } finally {
@@ -109,7 +110,17 @@ export default function AccessAssistantPage() {
         </div>
 
         <div className="md:col-span-1 flex flex-col">
-          <AccessibilityMetaBox analysisResult={analysisResult} isLoading={isLoading} />
+          <AccessibilityMetaBox 
+            analysisResult={analysisResult} 
+            isLoading={isLoading} 
+            content={content} 
+            onApplySuggestion={(newContent: string) => {
+              setContent(newContent);
+              // Optionally, re-analyze content after applying suggestion
+              // handleAnalyzeContent(); 
+              // Or update the analysisResult directly if the fix is simple
+            }}
+          />
         </div>
       </main>
 
