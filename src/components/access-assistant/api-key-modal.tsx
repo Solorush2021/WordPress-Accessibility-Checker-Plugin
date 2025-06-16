@@ -29,9 +29,15 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }
   };
 
   React.useEffect(() => {
-    const storedApiKey = localStorage.getItem('gemini_api_key');
-    if (storedApiKey) {
-      setApiKey(storedApiKey);
+    // Only try to load the API key if the modal is being opened.
+    if (isOpen) {
+      const storedApiKey = localStorage.getItem('gemini_api_key');
+      if (storedApiKey) {
+        setApiKey(storedApiKey);
+      } else {
+        // If no key is stored, ensure the input field is empty.
+        setApiKey('');
+      }
     }
   }, [isOpen]);
 
@@ -80,3 +86,4 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }
     </Dialog>
   );
 };
+
