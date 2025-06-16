@@ -16,11 +16,14 @@ export default function AccessAssistantPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState<boolean>(false);
   const { toast } = useToast();
-  const [isDarkMode, setIsDarkMode] = useState(true); // Default to dark mode
+  // Default to dark mode as per new styling preference
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
 
   const [initialContent, setInitialContent] = useState('');
   useEffect(() => {
+    // Initialize with dark mode
+    document.documentElement.classList.add('dark');
     setInitialContent("<h1>My Post Title</h1>\n<p>This is some example content with an image <img src='https://placehold.co/300x200.png' data-ai-hint='abstract placeholder' alt=''> and a <a href='#'>link</a>.</p>\n<p>Another paragraph without proper headings perhaps.</p><h2>Subheading</h2><p>Text under subheading.<img src='https://placehold.co/200x150.png' data-ai-hint='nature landscape'></p>");
   }, []);
 
@@ -54,7 +57,7 @@ export default function AccessAssistantPage() {
     }
 
     setIsLoading(true);
-    setAnalysisResult(null); 
+    setAnalysisResult(null);
     try {
       const result = await analyzeAccessibility({ content });
       setAnalysisResult(result);
@@ -76,24 +79,26 @@ export default function AccessAssistantPage() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col p-4 md:p-8 selection:bg-primary/20 selection:text-primary transition-colors duration-300 ${isDarkMode ? 'bg-gradient-to-br from-slate-900 via-gray-900 to-black' : 'bg-gradient-to-br from-slate-100 via-gray-100 to-stone-200'}`}>
+    <div className={`min-h-screen flex flex-col p-4 md:p-8 selection:bg-primary/30 selection:text-primary-foreground bg-background text-foreground transition-colors duration-300`}>
       <header className="mb-8 flex justify-between items-center">
-        <h1 className="text-3xl md:text-4xl font-headline text-primary dark:text-primary">Access Assistant</h1>
-        <div className="flex items-center gap-2">
+        <h1 className="text-3xl md:text-4xl font-headline" style={{ color: 'hsl(var(--primary))' }}>
+          Access Assistant
+        </h1>
+        <div className="flex items-center gap-3">
           <Button
             variant="outline"
             size="icon"
             onClick={toggleDarkMode}
-            className="bg-white/30 dark:bg-slate-700/30 backdrop-blur-sm border-primary/50 text-primary dark:text-primary hover:bg-primary/10 dark:hover:bg-primary/20 shadow-md"
+            className="liquid-glass-effect bg-[linear-gradient(120deg,hsl(var(--primary)/0.1),hsl(var(--accent)/0.1),hsl(var(--primary)/0.1))] hover:bg-[linear-gradient(120deg,hsl(var(--primary)/0.2),hsl(var(--accent)/0.2),hsl(var(--primary)/0.2))] text-primary-foreground backdrop-blur-sm border-primary/50 shadow-md"
             aria-label="Toggle Dark Mode"
           >
-            {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            {isDarkMode ? <Sun className="h-5 w-5 text-yellow-400" /> : <Moon className="h-5 w-5 text-blue-300" />}
           </Button>
           <Button
             variant="outline"
             size="icon"
             onClick={() => setIsApiKeyModalOpen(true)}
-            className="bg-white/30 dark:bg-slate-700/30 backdrop-blur-sm border-primary/50 text-primary dark:text-primary hover:bg-primary/10 dark:hover:bg-primary/20 shadow-md"
+            className="liquid-glass-effect bg-[linear-gradient(120deg,hsl(var(--primary)/0.1),hsl(var(--accent)/0.1),hsl(var(--primary)/0.1))] hover:bg-[linear-gradient(120deg,hsl(var(--primary)/0.2),hsl(var(--accent)/0.2),hsl(var(--primary)/0.2))] text-primary-foreground backdrop-blur-sm border-primary/50 shadow-md"
             aria-label="Open API Key Settings"
           >
             <Settings className="h-5 w-5" />
@@ -103,7 +108,7 @@ export default function AccessAssistantPage() {
 
       <main className="flex-grow grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
         <div className="md:col-span-2 flex flex-col space-y-4">
-          <label htmlFor="postContent" className="text-lg font-semibold font-headline text-foreground/90 dark:text-foreground/80">
+          <label htmlFor="postContent" className="text-lg font-semibold font-headline text-foreground/90">
             Post Content Editor
           </label>
           <Textarea
@@ -111,14 +116,14 @@ export default function AccessAssistantPage() {
             placeholder="Start writing or paste your post content here..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="flex-grow min-h-[300px] md:min-h-[500px] p-4 rounded-lg shadow-inner bg-white/50 dark:bg-slate-800/40 backdrop-blur-sm focus:ring-accent focus:border-accent text-base border-slate-300 dark:border-slate-700/60"
+            className="liquid-glass-effect flex-grow min-h-[300px] md:min-h-[500px] p-4 rounded-lg shadow-inner bg-[linear-gradient(120deg,hsl(var(--primary)/0.05),hsl(var(--accent)/0.05),hsl(var(--primary)/0.05))] backdrop-blur-md focus:ring-ring focus:border-ring text-base border-transparent"
             aria-label="Post Content Editor"
           />
           <Button
             onClick={handleAnalyzeContent}
             disabled={isLoading}
             size="lg"
-            className="w-full md:w-auto md:self-start bg-accent hover:bg-accent/80 text-accent-foreground transition-all duration-150 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl backdrop-blur-md bg-opacity-80 dark:bg-opacity-70 border border-accent/50"
+            className="w-full md:w-auto md:self-start liquid-glass-effect bg-[linear-gradient(120deg,hsl(var(--primary)/0.4),hsl(var(--accent)/0.4),hsl(var(--primary)/0.4))] hover:bg-[linear-gradient(120deg,hsl(var(--primary)/0.6),hsl(var(--accent)/0.6),hsl(var(--primary)/0.6))] text-primary-foreground transition-all duration-150 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl backdrop-blur-md border-transparent"
           >
             {isLoading ? (
               <>
@@ -135,10 +140,10 @@ export default function AccessAssistantPage() {
         </div>
 
         <div className="md:col-span-1 flex flex-col">
-          <AccessibilityMetaBox 
-            analysisResult={analysisResult} 
-            isLoading={isLoading} 
-            content={content} 
+          <AccessibilityMetaBox
+            analysisResult={analysisResult}
+            isLoading={isLoading}
+            content={content}
             onApplySuggestion={(newContent: string) => {
               setContent(newContent);
             }}
@@ -147,8 +152,8 @@ export default function AccessAssistantPage() {
       </main>
 
       <ApiKeyModal isOpen={isApiKeyModalOpen} onOpenChange={setIsApiKeyModalOpen} />
-      
-      <footer className="mt-12 text-center text-sm text-muted-foreground/80 dark:text-muted-foreground/70">
+
+      <footer className="mt-12 text-center text-sm text-muted-foreground/80">
         <p>&copy; {new Date().getFullYear()} Access Assistant. Enhance your content's accessibility.</p>
       </footer>
     </div>

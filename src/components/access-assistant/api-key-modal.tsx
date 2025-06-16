@@ -24,7 +24,7 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }
 
   const handleSave = () => {
     console.log('Simulated API Key Save:', apiKey);
-    localStorage.setItem('gemini_api_key', apiKey); 
+    localStorage.setItem('gemini_api_key', apiKey);
     onOpenChange(false);
   };
 
@@ -38,40 +38,40 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] bg-white/10 dark:bg-slate-800/30 backdrop-blur-xl border border-white/20 dark:border-slate-700/50 rounded-xl shadow-2xl">
+      <DialogContent className="sm:max-w-[425px] liquid-glass-effect bg-[linear-gradient(140deg,hsl(var(--primary)/0.1),hsl(var(--accent)/0.1),hsl(var(--background)/0.5))] backdrop-blur-xl border-transparent rounded-xl shadow-2xl">
         <DialogHeader>
-          <DialogTitle className="font-headline text-primary dark:text-primary">Configure API Key</DialogTitle>
-          <DialogDescription className="text-slate-600 dark:text-slate-400">
+          <DialogTitle className="font-headline text-[hsl(var(--primary))]">Configure API Key</DialogTitle>
+          <DialogDescription className="text-muted-foreground">
             Enter your Gemini API key to enable accessibility analysis. Your key is stored locally in your browser.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="apiKey" className="text-right text-slate-700 dark:text-slate-300">
+            <Label htmlFor="apiKey" className="text-right text-foreground">
               API Key
             </Label>
             <Input
               id="apiKey"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
-              className="col-span-3 bg-white/50 dark:bg-slate-700/60 border-slate-300 dark:border-slate-600/70 focus:ring-accent focus:border-accent placeholder:text-slate-400 dark:placeholder:text-slate-500"
+              className="col-span-3 bg-black/20 border-border focus:ring-ring focus:border-ring placeholder:text-muted-foreground text-foreground"
               type="password"
               placeholder="Enter your API key"
             />
           </div>
         </div>
         <DialogFooter>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={() => onOpenChange(false)}
-            className="bg-white/40 dark:bg-slate-700/60 backdrop-blur-sm border-slate-400/70 dark:border-slate-600/70 text-slate-700 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-slate-600/70 shadow-md"
+            className="liquid-glass-effect bg-black/20 hover:bg-black/30 backdrop-blur-sm border-transparent text-foreground shadow-md"
           >
             Cancel
           </Button>
-          <Button 
-            type="submit" 
-            onClick={handleSave} 
-            className="bg-primary/80 hover:bg-primary text-primary-foreground backdrop-blur-sm border border-primary/50 shadow-lg hover:shadow-primary/40"
+          <Button
+            type="submit"
+            onClick={handleSave}
+            className="liquid-glass-effect bg-[linear-gradient(120deg,hsl(var(--primary)/0.4),hsl(var(--accent)/0.4),hsl(var(--primary)/0.4))] hover:bg-[linear-gradient(120deg,hsl(var(--primary)/0.6),hsl(var(--accent)/0.6),hsl(var(--primary)/0.6))] text-primary-foreground backdrop-blur-sm border-transparent shadow-lg hover:shadow-primary/40"
           >
             Save Key
           </Button>

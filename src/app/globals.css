@@ -3,112 +3,106 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes flowing-liquid {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.liquid-glass-effect {
+  background-size: 300% 300% !important; /* Ensure size is large enough for smooth animation */
+  animation: flowing-liquid 12s ease infinite;
+  border: 1px solid hsla(var(--primary-foreground), 0.1);
+  box-shadow: 0 8px 32px 0 hsla(var(--primary), 0.2); /* Softer shadow with primary color hint */
+}
+
 body {
   font-family: 'PT Sans', sans-serif;
 }
 
 @layer base {
   :root {
-    --background: 220 20% 96%; /* Light gray #F0F4F8 - slightly cooler */
-    --foreground: 220 10% 20%; /* Default dark text */
+    /* Dark Theme with Orange & Green accents */
+    --background: 220 10% 7%; /* Very dark, almost black */
+    --foreground: 0 0% 95%; /* Light text for high contrast */
 
-    --card: 220 20% 100%; /* Card background (can be made semi-transparent locally for glassmorphism) */
-    --card-foreground: 220 10% 20%;
+    --card: 220 10% 12%; /* Darker card base for glass to sit on */
+    --card-foreground: 0 0% 95%;
 
-    --popover: 220 20% 100%;
-    --popover-foreground: 220 10% 20%;
+    --popover: 220 10% 10%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 261 52% 48%; /* Deep purple #673AB7 */
-    --primary-foreground: 0 0% 98%; /* Light text for primary elements */
+    --primary: 24 95% 55%; /* Vibrant Orange */
+    --primary-foreground: 0 0% 100%; /* White text on orange */
 
-    --secondary: 220 15% 90%; /* Adjusted for light theme based on new background */
-    --secondary-foreground: 220 10% 25%;
+    --secondary: 145 60% 30%; /* Darker Green for secondary elements */
+    --secondary-foreground: 0 0% 95%;
 
-    --muted: 220 15% 85%; /* Adjusted for light theme */
-    --muted-foreground: 220 10% 45%; /* Adjusted for light theme */
+    --muted: 220 10% 20%;
+    --muted-foreground: 0 0% 60%;
 
-    --accent: 16 100% 70%; /* Orange #FF8A65 */
-    --accent-foreground: 20 10% 15%; /* Dark text for accent elements, for better contrast */
+    --accent: 145 65% 45%; /* Vibrant Green */
+    --accent-foreground: 0 0% 100%; /* White text on green */
 
-    --destructive: 0 75% 55%; /* Slightly desaturated red for better harmony */
+    --destructive: 0 70% 50%; /* Red for destructive actions */
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 20% 85%; /* Slightly darker border for better contrast on light theme */
-    --input: 220 15% 92%; /* Adjusted for light theme */
-    --ring: 261 52% 55%; /* Ring color to match primary, slightly lighter */
+    --border: 220 10% 25%; /* Subtle borders */
+    --input: 220 10% 15%; /* Dark input fields */
+    --ring: 24 95% 60%; /* Orange for rings/focus */
 
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
+    --chart-1: hsl(var(--primary));
+    --chart-2: hsl(var(--accent));
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.75rem; /* Increased radius for a softer look */
+    --radius: 0.75rem;
 
-    /* Score colors */
-    --score-low: 0 70% 60%; /* Reddish */
-    --score-medium: 39 90% 60%; /* Yellowish/Orangish */
-    --score-high: 120 60% 50%; /* Greenish */
+    /* Score colors (Green for high, Orange for medium, Red for low) */
+    --score-high: 145 65% 45%; /* Green */
+    --score-medium: 24 95% 55%; /* Orange */
+    --score-low: 0 70% 50%; /* Red */
 
 
-    /* Sidebar variables remain, but might be unused if sidebar is not part of the page */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 220 10% 9%;
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: hsl(var(--primary));
+    --sidebar-primary-foreground: hsl(var(--primary-foreground));
+    --sidebar-accent: hsl(var(--accent));
+    --sidebar-accent-foreground: hsl(var(--accent-foreground));
+    --sidebar-border: 220 10% 20%;
+    --sidebar-ring: hsl(var(--ring));
   }
 
   .dark {
-    --background: 222 47% 11%; /* Dark Slate Blue - base for glassmorphism */
-    --foreground: 210 40% 98%; /* Brighter foreground for contrast */
+    /* Dark theme is default, but we keep this for explicitness if needed elsewhere */
+    --background: 220 10% 7%;
+    --foreground: 0 0% 95%;
 
-    --card: 222 47% 15%; /* Slightly lighter than background for depth, for opaque cards */
-    --card-foreground: 210 40% 98%;
+    --card: 220 10% 12%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 222 47% 13%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 220 10% 10%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 260 85% 75%; /* Lighter and more vibrant purple for dark mode */
-    --primary-foreground: 260 10% 15%; /* Darker text on vibrant primary */
+    --primary: 24 95% 55%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 222 47% 20%; /* Darker secondary */
-    --secondary-foreground: 210 40% 80%;
+    --secondary: 145 60% 30%;
+    --secondary-foreground: 0 0% 95%;
 
-    --muted: 222 47% 25%; 
-    --muted-foreground: 210 40% 60%; 
+    --muted: 220 10% 20%;
+    --muted-foreground: 0 0% 60%;
 
-    --accent: 30 100% 75%; /* Brighter orange for dark mode */
-    --accent-foreground: 20 10% 10%; 
+    --accent: 145 65% 45%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 70% 65%; /* Slightly brighter red */
+    --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 222 47% 25%; /* For opaque borders */
-    --input: 222 47% 18%; /* Darker input fields */
-    --ring: 260 85% 80%; 
-    
-    --chart-1: 220 70% 55%;
-    --chart-2: 160 60% 50%;
-    --chart-3: 30 80% 60%;
-    --chart-4: 280 65% 65%;
-    --chart-5: 340 75% 60%;
-
-    /* Score colors */
-    --score-low: 0 80% 70%; 
-    --score-medium: 39 100% 70%; 
-    --score-high: 120 70% 65%; 
-
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 220 10% 25%;
+    --input: 220 10% 15%;
+    --ring: 24 95% 60%;
   }
 }
 
@@ -118,18 +112,22 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+    /* Apply dark mode by default */
+    /* Next.js handles dark mode via html class usually, but for full override: */
+    /* background-color: hsl(var(--background)); */
   }
 }
 
 /* For prose styles in preview */
 @layer components {
   .prose {
+    color: hsl(var(--foreground)); /* Ensure prose text is visible on dark bg */
     img { @apply my-2 rounded-md shadow-sm; }
     p { @apply my-2 leading-relaxed; }
-    h1,h2,h3,h4,h5,h6 { @apply my-3 font-headline; }
+    h1,h2,h3,h4,h5,h6 { @apply my-3 font-headline; color: hsl(var(--foreground)); }
   }
-  .dark .prose-invert {
+  /* .dark .prose-invert is not strictly needed if dark is default and prose colored for it */
+  .prose-invert { 
     img { @apply border border-slate-700; }
   }
 }
-
