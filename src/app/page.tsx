@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Settings, Send, Moon, Sun } from 'lucide-react';
+import { Settings, Send, Moon, Sun, Accessibility } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { analyzeAccessibility, type AnalyzeAccessibilityOutput } from '@/ai/flows/analyze-accessibility';
 import { AccessibilityMetaBox } from '@/components/access-assistant/accessibility-meta-box';
@@ -84,9 +84,10 @@ export default function AccessAssistantPage() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col p-4 md:p-8 selection:bg-primary/30 selection:text-primary-foreground bg-gradient-to-br from-background to-slate-900/80 dark:to-black text-foreground transition-colors duration-300`}>
+    <div className={`min-h-screen flex flex-col p-4 md:p-8 selection:bg-primary/30 selection:text-primary-foreground bg-background text-foreground transition-colors duration-300`}>
       <header className="mb-8 flex justify-between items-center">
-        <h1 className="text-3xl md:text-4xl font-headline bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
+        <h1 className="text-3xl md:text-4xl font-headline neon-orange-red-glow flex items-center gap-3">
+          <Accessibility className="h-8 w-8 md:h-10 md:w-10 logo-pulse" style={{ animation: 'logo-pulse 2.5s infinite ease-in-out' }} />
           Access Assistant
         </h1>
         <div className="flex items-center gap-3">
@@ -94,7 +95,7 @@ export default function AccessAssistantPage() {
             variant="outline"
             size="icon"
             onClick={toggleDarkMode}
-            className="liquid-glass-effect bg-gradient-to-r from-[hsl(var(--card)/0.5)] to-[hsl(var(--card)/0.3)] hover:from-[hsl(var(--card)/0.7)] hover:to-[hsl(var(--card)/0.5)] text-foreground backdrop-blur-sm border-primary/30 shadow-md"
+            className="liquid-glass-effect bg-card/50 hover:bg-card/70 text-foreground backdrop-blur-sm border-primary/30 shadow-md"
             aria-label="Toggle Dark Mode"
           >
             {isDarkMode ? <Sun className="h-5 w-5 text-yellow-400" /> : <Moon className="h-5 w-5 text-blue-300" />}
@@ -103,7 +104,7 @@ export default function AccessAssistantPage() {
             variant="outline"
             size="icon"
             onClick={handleSettingsClick}
-            className="liquid-glass-effect bg-gradient-to-r from-[hsl(var(--primary)/0.2)] to-[hsl(var(--accent)/0.2)] hover:from-[hsl(var(--primary)/0.4)] hover:to-[hsl(var(--accent)/0.4)] text-foreground backdrop-blur-sm border-transparent shadow-md"
+            className="liquid-glass-effect bg-card/50 hover:bg-card/70 text-foreground backdrop-blur-sm border-transparent shadow-md"
             aria-label="Open API Key Settings"
           >
             <Settings className="h-5 w-5" />
@@ -121,14 +122,14 @@ export default function AccessAssistantPage() {
             placeholder="Start writing or paste your post content here..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="liquid-glass-effect flex-grow min-h-[300px] md:min-h-[500px] p-4 rounded-lg shadow-inner bg-gradient-to-br from-[hsl(var(--primary)/0.03)] via-[hsl(var(--accent)/0.03)] to-[hsl(var(--primary)/0.03)] dark:from-[hsl(var(--primary)/0.05)] dark:via-[hsl(var(--accent)/0.05)] dark:to-[hsl(var(--primary)/0.05)] backdrop-blur-md focus:ring-ring focus:border-ring text-base"
+            className="liquid-glass-effect flex-grow min-h-[300px] md:min-h-[500px] p-4 shadow-inner focus:ring-ring focus:border-ring text-foreground text-base"
             aria-label="Post Content Editor"
           />
           <Button
             onClick={handleAnalyzeContent}
             disabled={isLoading}
             size="lg"
-            className="w-full md:w-auto md:self-start liquid-glass-effect bg-gradient-to-r from-[hsl(var(--primary)/0.4)] to-[hsl(var(--accent)/0.4)] hover:from-[hsl(var(--primary)/0.6)] hover:to-[hsl(var(--accent)/0.6)] text-primary-foreground transition-all duration-150 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl backdrop-blur-md"
+            className="w-full md:w-auto md:self-start liquid-glass-effect bg-gradient-to-r from-[hsl(var(--primary)/0.5)] to-[hsl(var(--accent)/0.5)] hover:from-[hsl(var(--primary)/0.7)] hover:to-[hsl(var(--accent)/0.7)] text-primary-foreground transition-all duration-150 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl backdrop-blur-md"
           >
             {isLoading ? (
               <>

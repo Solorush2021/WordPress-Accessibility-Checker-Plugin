@@ -9,12 +9,37 @@
   100% { background-position: 0% 50%; }
 }
 
-.liquid-glass-effect {
-  background-size: 300% 300% !important; /* Ensure size is large enough for smooth animation */
-  animation: flowing-liquid 12s ease infinite;
-  border: 1px solid hsla(var(--primary-foreground), 0.1);
-  box-shadow: 0 8px 32px 0 hsla(var(--primary), 0.2); /* Softer shadow with primary color hint */
+@keyframes logo-pulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px hsl(var(--primary) / 0.5)) drop-shadow(0 0 2px hsl(var(--destructive) / 0.3));
+  }
+  50% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 5px hsl(var(--primary) / 0.8)) drop-shadow(0 0 5px hsl(var(--destructive) / 0.5));
+  }
 }
+
+.liquid-glass-effect {
+  background: linear-gradient(270deg, hsl(var(--primary)/0.2), hsl(var(--accent)/0.2), hsl(var(--background)/0.7), hsl(var(--accent)/0.2), hsl(var(--primary)/0.2));
+  background-size: 400% 400%;
+  animation: flowing-liquid 15s ease infinite;
+  border: 1px solid hsla(var(--primary-foreground), 0.15);
+  box-shadow: 0 8px 32px 0 hsla(var(--primary), 0.25);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius); /* Use the theme radius */
+}
+
+.neon-orange-red-glow {
+  color: hsl(var(--primary)); /* Orange text */
+  text-shadow:
+    0 0 1px hsl(var(--primary-foreground)/0.7), /* Inner white-ish sharp glow */
+    0 0 3px hsl(var(--primary)/0.8),  /* Orange halo */
+    0 0 6px hsl(var(--primary)/0.6),
+    0 0 10px hsl(var(--destructive)/0.7), /* Red outer glow */
+    0 0 15px hsl(var(--destructive)/0.5);
+}
+
 
 body {
   font-family: 'PT Sans', sans-serif;
@@ -23,22 +48,22 @@ body {
 @layer base {
   :root {
     /* Dark Theme with Orange & Green accents */
-    --background: 220 10% 7%; /* Very dark, almost black */
+    --background: 220 10% 3%; /* Very dark, almost black */
     --foreground: 0 0% 95%; /* Light text for high contrast */
 
-    --card: 220 10% 12%; /* Darker card base for glass to sit on */
+    --card: 220 10% 7%; /* Darker card base for glass to sit on */
     --card-foreground: 0 0% 95%;
 
-    --popover: 220 10% 10%;
+    --popover: 220 10% 5%; /* Darker popover */
     --popover-foreground: 0 0% 95%;
 
     --primary: 24 95% 55%; /* Vibrant Orange */
     --primary-foreground: 0 0% 100%; /* White text on orange */
 
-    --secondary: 145 60% 30%; /* Darker Green for secondary elements */
+    --secondary: 145 60% 25%; /* Darker Green for secondary elements */
     --secondary-foreground: 0 0% 95%;
 
-    --muted: 220 10% 20%;
+    --muted: 220 10% 15%; /* Darker muted */
     --muted-foreground: 0 0% 60%;
 
     --accent: 145 65% 45%; /* Vibrant Green */
@@ -47,8 +72,8 @@ body {
     --destructive: 0 70% 50%; /* Red for destructive actions */
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 10% 25%; /* Subtle borders */
-    --input: 220 10% 15%; /* Dark input fields */
+    --border: 220 10% 20%; /* Subtle borders */
+    --input: 220 10% 10%; /* Dark input fields */
     --ring: 24 95% 60%; /* Orange for rings/focus */
 
     --chart-1: hsl(var(--primary));
@@ -76,22 +101,22 @@ body {
 
   .dark {
     /* Dark theme is default, but we keep this for explicitness if needed elsewhere */
-    --background: 220 10% 7%;
+    --background: 220 10% 3%;
     --foreground: 0 0% 95%;
 
-    --card: 220 10% 12%;
+    --card: 220 10% 7%;
     --card-foreground: 0 0% 95%;
 
-    --popover: 220 10% 10%;
+    --popover: 220 10% 5%;
     --popover-foreground: 0 0% 95%;
 
     --primary: 24 95% 55%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 145 60% 30%;
+    --secondary: 145 60% 25%;
     --secondary-foreground: 0 0% 95%;
 
-    --muted: 220 10% 20%;
+    --muted: 220 10% 15%;
     --muted-foreground: 0 0% 60%;
 
     --accent: 145 65% 45%;
@@ -100,8 +125,8 @@ body {
     --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 10% 25%;
-    --input: 220 10% 15%;
+    --border: 220 10% 20%;
+    --input: 220 10% 10%;
     --ring: 24 95% 60%;
   }
 }
@@ -112,9 +137,6 @@ body {
   }
   body {
     @apply bg-background text-foreground;
-    /* Apply dark mode by default */
-    /* Next.js handles dark mode via html class usually, but for full override: */
-    /* background-color: hsl(var(--background)); */
   }
 }
 
@@ -126,8 +148,7 @@ body {
     p { @apply my-2 leading-relaxed; }
     h1,h2,h3,h4,h5,h6 { @apply my-3 font-headline; color: hsl(var(--foreground)); }
   }
-  /* .dark .prose-invert is not strictly needed if dark is default and prose colored for it */
-  .prose-invert { 
+  .prose-invert {
     img { @apply border border-slate-700; }
   }
 }
