@@ -24,10 +24,10 @@
 }
 
 .neon-orange-red-glow {
-  color: hsl(var(--primary-foreground)); /* Changed to white-ish text */
+  color: hsl(var(--primary-foreground)); /* White text */
   text-shadow:
     0 0 1px hsl(var(--primary-foreground)/0.85), /* Inner white-ish sharp glow */
-    0 0 4px hsl(var(--primary)/0.9),  /* Stronger Orange halo - kept orange for glow contrast */
+    0 0 4px hsl(var(--primary)/0.9),  /* Stronger Orange halo */
     0 0 8px hsl(var(--primary)/0.5), /* Softer Orange halo */
     0 0 12px hsla(340, 90%, 65%, 0.55), /* Reddish-pink outer glow - more vibrant */
     0 0 20px hsla(340, 90%, 65%, 0.35); /* Fainter reddish-pink outer glow */
@@ -39,7 +39,7 @@
     transform: translateX(0%);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(-50%); /* Scroll one full copy of the text */
   }
 }
 
@@ -59,7 +59,7 @@
 .ribbon-text-scroll {
   display: inline-block;
   white-space: nowrap;
-  animation: scroll-right-to-left 30s linear infinite; /* Can adjust speed */
+  animation: scroll-right-to-left 20s linear infinite; /* Faster scroll */
   font-size: 0.9rem; /* Monospace often looks good slightly larger or bolder */
   text-transform: uppercase;
 }
