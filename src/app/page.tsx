@@ -83,13 +83,32 @@ export default function AccessAssistantPage() {
     }
   };
 
-  const ribbonAlertText = "SYSTEM ALERT: AI-POWERED ACCESSIBILITY SCAN IN PROGRESS... OPTIMIZING CONTENT FOR UNIVERSAL ACCESS... ALL SYSTEMS NOMINAL...";
-  const repeatedRibbonText = `${ribbonAlertText} +++ ${ribbonAlertText} +++ `;
+  const ribbonMessages1 = [
+    "AI-POWERED ACCESSIBILITY ANALYSIS ONLINE...",
+    "SCANNING FOR WCAG VIOLATIONS: IMAGES, CONTRAST, HEADINGS...",
+    "GENERATING ACCESSIBILITY SCORE & ACTIONABLE INSIGHTS...",
+    "INTELLIGENT ALT-TEXT SUGGESTIONS POWERED BY GEMINI...",
+    "REAL-TIME CONTENT PREVIEW WITH ISSUE HIGHLIGHTING...",
+    "API KEY CONFIGURATION VIA SECURE SETTINGS PANEL...",
+  ];
+  const ribbonText1 = ribbonMessages1.join(" +++ ");
+  const repeatedRibbonText1 = `${ribbonText1} +++ ${ribbonText1} +++ `;
+
+  const ribbonMessages2 = [
+    "ENHANCING DIGITAL INCLUSIVITY FOR ALL USERS...",
+    "OPTIMIZING USER EXPERIENCE THROUGH UNIVERSAL DESIGN...",
+    "SEAMLESS META BOX INTEGRATION FOR WORDPRESS EDITORS...",
+    "BOOSTING SEO RANKINGS WITH ACCESSIBLE CONTENT...",
+    "MODERN GLASSMORPHIC UI WITH RESPONSIVE LAYOUT...",
+    "ACCESS ASSISTANT: YOUR PARTNER IN WEB ACCESSIBILITY...",
+  ];
+  const ribbonText2 = ribbonMessages2.join(" +++ ");
+  const repeatedRibbonText2 = `${ribbonText2} +++ ${ribbonText2} +++ `;
 
 
   return (
     <div className={`min-h-screen flex flex-col p-4 md:p-8 selection:bg-primary/30 selection:text-primary-foreground bg-background text-foreground transition-colors duration-300`}>
-      <header className="mb-12 flex justify-between items-center"> {/* Increased margin-bottom */}
+      <header className="mb-12 flex justify-between items-center">
         <div className="flex-grow min-w-0">
           <h1 className="text-3xl md:text-4xl font-headline neon-orange-red-glow flex items-center gap-3">
             <Accessibility className="h-8 w-8 md:h-10 md:w-10 animate-logo-pulse" />
@@ -97,12 +116,12 @@ export default function AccessAssistantPage() {
           </h1>
           <div className="feature-ribbon mt-3">
             <div className="font-code ribbon-text-scroll ribbon-text-glow">
-              {repeatedRibbonText}
+              {repeatedRibbonText1}
             </div>
           </div>
            <div className="feature-ribbon">
-            <div className="font-code ribbon-text-scroll-reverse ribbon-text-glow">
-              {repeatedRibbonText}
+            <div className="font-code ribbon-text-scroll-reverse ribbon-text-glow-yellow">
+              {repeatedRibbonText2}
             </div>
           </div>
         </div>

@@ -90,6 +90,14 @@
     0 0 8px hsl(var(--primary) / 0.3); /* Faintest outer glow */
 }
 
+.ribbon-text-glow-yellow {
+  color: hsl(50, 95%, 55%); /* Bright Yellow for text */
+  text-shadow:
+    0 0 2px hsl(50, 95%, 55% / 0.7), /* Main yellow glow */
+    0 0 5px hsl(50, 95%, 55% / 0.5), /* Softer yellow halo */
+    0 0 8px hsl(50, 95%, 55% / 0.3); /* Faintest outer yellow glow */
+}
+
 
 /* AI Activation Animation Styles */
 .ai-activation-container {
