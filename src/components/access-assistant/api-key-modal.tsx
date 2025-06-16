@@ -19,11 +19,12 @@ interface ApiKeyModalProps {
   onOpenChange: (isOpen: boolean) => void;
 }
 
+const DEFAULT_API_KEY = "AIzaSyDkbLl8YoEb7vCyhHEh6k1xeo4wmhvC9Zs";
+
 export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }) => {
   const [apiKey, setApiKey] = React.useState('');
 
   const handleSave = () => {
-    console.log('Simulated API Key Save:', apiKey);
     localStorage.setItem('gemini_api_key', apiKey);
     onOpenChange(false);
   };
@@ -34,7 +35,7 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }
       if (storedApiKey) {
         setApiKey(storedApiKey);
       } else {
-        setApiKey(''); // Clear if no key is stored
+        setApiKey(DEFAULT_API_KEY); 
       }
     }
   }, [isOpen]);
@@ -46,7 +47,7 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }
         <DialogHeader>
           <DialogTitle className="font-headline text-primary">Configure API Key</DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Enter your Gemini API key to enable accessibility analysis. Your key is stored locally in your browser.
+            Enter your Gemini API key. Your key is stored locally in your browser. The application may also use a globally configured key for backend services.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
