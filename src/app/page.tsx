@@ -21,7 +21,10 @@ export default function AccessAssistantPage() {
 
   const [initialContent, setInitialContent] = useState('');
   useEffect(() => {
+    // Default to dark mode on initial load
     document.documentElement.classList.add('dark');
+    setIsDarkMode(true); // Explicitly set state to match
+
     setInitialContent("<h1>My Post Title</h1>\n<p>This is some example content with an image <img src='https://placehold.co/300x200.png' data-ai-hint='abstract placeholder' alt='A placeholder image'> and a <a href='#'>link</a>.</p>\n<p>Another paragraph without proper headings perhaps.</p><h2>Subheading</h2><p>Text under subheading.<img src='https://placehold.co/200x150.png' data-ai-hint='nature landscape' alt='Another placeholder image'></p>");
   }, []);
 
@@ -82,9 +85,9 @@ export default function AccessAssistantPage() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col p-4 md:p-8 selection:bg-primary/30 selection:text-primary-foreground bg-background text-foreground transition-colors duration-300`}>
+    <div className={`min-h-screen flex flex-col p-4 md:p-8 selection:bg-primary/30 selection:text-primary-foreground bg-gradient-to-br from-background to-slate-900/80 dark:to-black text-foreground transition-colors duration-300`}>
       <header className="mb-8 flex justify-between items-center">
-        <h1 className="text-3xl md:text-4xl font-headline" style={{ color: 'hsl(var(--primary))' }}>
+        <h1 className="text-3xl md:text-4xl font-headline bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
           Access Assistant
         </h1>
         <div className="flex items-center gap-3">
@@ -92,7 +95,7 @@ export default function AccessAssistantPage() {
             variant="outline"
             size="icon"
             onClick={toggleDarkMode}
-            className="liquid-glass-effect bg-[linear-gradient(120deg,hsl(var(--primary)/0.1),hsl(var(--accent)/0.1),hsl(var(--primary)/0.1))] hover:bg-[linear-gradient(120deg,hsl(var(--primary)/0.2),hsl(var(--accent)/0.2),hsl(var(--primary)/0.2))] text-primary-foreground backdrop-blur-sm border-primary/50 shadow-md"
+            className="bg-card/50 hover:bg-card/70 border-primary/30 text-foreground backdrop-blur-sm shadow-md"
             aria-label="Toggle Dark Mode"
           >
             {isDarkMode ? <Sun className="h-5 w-5 text-yellow-400" /> : <Moon className="h-5 w-5 text-blue-300" />}
@@ -101,7 +104,7 @@ export default function AccessAssistantPage() {
             variant="outline"
             size="icon"
             onClick={handleSettingsClick}
-            className="liquid-glass-effect bg-[linear-gradient(120deg,hsl(var(--primary)/0.1),hsl(var(--accent)/0.1),hsl(var(--primary)/0.1))] hover:bg-[linear-gradient(120deg,hsl(var(--primary)/0.2),hsl(var(--accent)/0.2),hsl(var(--primary)/0.2))] text-primary-foreground backdrop-blur-sm border-primary/50 shadow-md"
+            className="bg-card/50 hover:bg-card/70 border-primary/30 text-foreground backdrop-blur-sm shadow-md" // Simplified styling
             aria-label="Open API Key Settings"
           >
             <Settings className="h-5 w-5" />
@@ -119,14 +122,14 @@ export default function AccessAssistantPage() {
             placeholder="Start writing or paste your post content here..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="liquid-glass-effect flex-grow min-h-[300px] md:min-h-[500px] p-4 rounded-lg shadow-inner bg-[linear-gradient(120deg,hsl(var(--primary)/0.05),hsl(var(--accent)/0.05),hsl(var(--primary)/0.05))] backdrop-blur-md focus:ring-ring focus:border-ring text-base border-transparent"
+            className="liquid-glass-effect flex-grow min-h-[300px] md:min-h-[500px] p-4 rounded-lg shadow-inner bg-gradient-to-br from-[hsl(var(--primary)/0.03)] via-[hsl(var(--accent)/0.03)] to-[hsl(var(--primary)/0.03)] dark:from-[hsl(var(--primary)/0.05)] dark:via-[hsl(var(--accent)/0.05)] dark:to-[hsl(var(--primary)/0.05)] backdrop-blur-md focus:ring-ring focus:border-ring text-base"
             aria-label="Post Content Editor"
           />
           <Button
             onClick={handleAnalyzeContent}
             disabled={isLoading}
             size="lg"
-            className="w-full md:w-auto md:self-start liquid-glass-effect bg-[linear-gradient(120deg,hsl(var(--primary)/0.4),hsl(var(--accent)/0.4),hsl(var(--primary)/0.4))] hover:bg-[linear-gradient(120deg,hsl(var(--primary)/0.6),hsl(var(--accent)/0.6),hsl(var(--primary)/0.6))] text-primary-foreground transition-all duration-150 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl backdrop-blur-md border-transparent"
+            className="w-full md:w-auto md:self-start liquid-glass-effect bg-gradient-to-r from-[hsl(var(--primary)/0.4)] to-[hsl(var(--accent)/0.4)] hover:from-[hsl(var(--primary)/0.6)] hover:to-[hsl(var(--accent)/0.6)] text-primary-foreground transition-all duration-150 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl backdrop-blur-md"
           >
             {isLoading ? (
               <>
@@ -149,8 +152,6 @@ export default function AccessAssistantPage() {
             content={content}
             onApplySuggestion={(newContent: string) => {
               setContent(newContent);
-              // Optionally, re-analyze after applying suggestion
-              // handleAnalyzeContent(); 
             }}
           />
         </div>

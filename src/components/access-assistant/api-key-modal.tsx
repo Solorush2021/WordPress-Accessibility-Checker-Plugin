@@ -29,24 +29,26 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }
   };
 
   React.useEffect(() => {
-    // Only try to load the API key if the modal is being opened.
     if (isOpen) {
-      const storedApiKey = localStorage.getItem('gemini_api_key');
-      if (storedApiKey) {
-        setApiKey(storedApiKey);
-      } else {
-        // If no key is stored, ensure the input field is empty.
-        setApiKey('');
-      }
+      // Defer the execution slightly to ensure the modal is fully rendered
+      // and to avoid potential rapid state update conflicts.
+      setTimeout(() => {
+        const storedApiKey = localStorage.getItem('gemini_api_key');
+        if (storedApiKey) {
+          setApiKey(storedApiKey);
+        } else {
+          setApiKey('');
+        }
+      }, 0);
     }
   }, [isOpen]);
 
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] liquid-glass-effect bg-[linear-gradient(140deg,hsl(var(--primary)/0.1),hsl(var(--accent)/0.1),hsl(var(--background)/0.5))] backdrop-blur-xl border-transparent rounded-xl shadow-2xl">
+      <DialogContent className="sm:max-w-[425px] liquid-glass-effect bg-gradient-to-br from-[hsl(var(--card)/0.7)] to-[hsl(var(--card)/0.5)] dark:from-[hsl(var(--card)/0.5)] dark:to-[hsl(var(--card)/0.3)] backdrop-blur-xl border-primary/30 rounded-xl shadow-2xl">
         <DialogHeader>
-          <DialogTitle className="font-headline text-[hsl(var(--primary))]">Configure API Key</DialogTitle>
+          <DialogTitle className="font-headline text-primary">Configure API Key</DialogTitle>
           <DialogDescription className="text-muted-foreground">
             Enter your Gemini API key to enable accessibility analysis. Your key is stored locally in your browser.
           </DialogDescription>
@@ -60,7 +62,7 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }
               id="apiKey"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
-              className="col-span-3 bg-black/20 border-border focus:ring-ring focus:border-ring placeholder:text-muted-foreground text-foreground"
+              className="col-span-3 bg-background/50 dark:bg-black/20 border-border focus:ring-ring focus:border-ring placeholder:text-muted-foreground text-foreground"
               type="password"
               placeholder="Enter your API key"
             />
@@ -70,14 +72,14 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }
           <Button
             variant="outline"
             onClick={() => onOpenChange(false)}
-            className="liquid-glass-effect bg-black/20 hover:bg-black/30 backdrop-blur-sm border-transparent text-foreground shadow-md"
+            className="liquid-glass-effect bg-background/30 hover:bg-background/50 dark:bg-black/20 dark:hover:bg-black/40 backdrop-blur-sm border-border text-foreground shadow-md"
           >
             Cancel
           </Button>
           <Button
             type="submit"
             onClick={handleSave}
-            className="liquid-glass-effect bg-[linear-gradient(120deg,hsl(var(--primary)/0.4),hsl(var(--accent)/0.4),hsl(var(--primary)/0.4))] hover:bg-[linear-gradient(120deg,hsl(var(--primary)/0.6),hsl(var(--accent)/0.6),hsl(var(--primary)/0.6))] text-primary-foreground backdrop-blur-sm border-transparent shadow-lg hover:shadow-primary/40"
+            className="liquid-glass-effect bg-gradient-to-r from-[hsl(var(--primary)/0.4)] to-[hsl(var(--accent)/0.4)] hover:from-[hsl(var(--primary)/0.6)] hover:to-[hsl(var(--accent)/0.6)] text-primary-foreground backdrop-blur-sm border-transparent shadow-lg hover:shadow-primary/40"
           >
             Save Key
           </Button>
@@ -86,4 +88,3 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onOpenChange }
     </Dialog>
   );
 };
-
